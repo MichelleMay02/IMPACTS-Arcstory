@@ -1,0 +1,4181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_975cf236d075177bc48b76751f1349d5 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.control.layers.tree@1.1.0/L.Control.Layers.Tree.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.control.layers.tree@1.1.0/L.Control.Layers.Tree.min.css"/>
+</head>
+<body>
+    
+    
+<style>
+.leaflet-control-layers {
+    max-height: 420px !important;
+    overflow-y: auto !important;
+    overflow-x: auto !important;
+    width: 280px !important;
+    font-size: 13px !important;
+    padding-right: 6px !important;
+}
+.leaflet-control-layers-list {
+    max-height: 380px !important;
+    overflow-y: auto !important;
+}
+</style>
+    
+<div id="legend-salinity" style="
+    display:none;
+    position: fixed;
+    bottom: 30px;
+    left: 20px;
+    z-index: 9999;
+    background-color: white;
+    border: 2px solid gray;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 12px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    min-width: 220px;
+">
+    <div><b>Salinity (PSU)</b></div>
+    <div style="height:14px; margin:6px 0; background: linear-gradient(to right, blue, cyan, green, yellow, orange, red);"></div>
+    <div style="display:flex; justify-content:space-between;">
+        <span>0.00</span>
+        <span>30.00</span>
+    </div>
+</div>
+
+<div id="legend-water" style="
+    display:none;
+    position: fixed;
+    bottom: 120px;
+    left: 20px;
+    z-index: 9999;
+    background-color: white;
+    border: 2px solid gray;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 12px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    min-width: 220px;
+">
+    <div><b>Water Temperature (°C)</b></div>
+    <div style="height:14px; margin:6px 0; background: linear-gradient(to right, darkblue, blue, cyan, yellow, orange, red);"></div>
+    <div style="display:flex; justify-content:space-between;">
+        <span>0.00</span>
+        <span>29.00</span>
+    </div>
+</div>
+
+<div id="legend-air" style="
+    display:none;
+    position: fixed;
+    bottom: 210px;
+    left: 20px;
+    z-index: 9999;
+    background-color: white;
+    border: 2px solid gray;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 12px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    min-width: 220px;
+">
+    <div><b>Air Temperature (°C)</b></div>
+    <div style="height:14px; margin:6px 0; background: linear-gradient(to right, purple, blue, cyan, yellow, orange, red);"></div>
+    <div style="display:flex; justify-content:space-between;">
+        <span>0.00</span>
+        <span>30.00</span>
+    </div>
+</div>
+    
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var map = map_975cf236d075177bc48b76751f1349d5;
+
+    var salLayerNames = ['feature_group_ba2325da756424e9868a028ae8e211a1', 'feature_group_d51d6e8f7a732ce34f7a0309f0e377b4', 'feature_group_d304f5f271aaa584acef70af295d010b', 'feature_group_a1aac1c6da61b75bac18b4edb6caebda', 'feature_group_123ec357abfae69aea4e7dadd50a0a17', 'feature_group_c957860622991135497ab26b414aaf2d', 'feature_group_38cb76bc9354da1db5eea946dbb70e16', 'feature_group_b7afe27fb54daa94fff6d400f6f6bd06', 'feature_group_916a8943965c188c5fc344b236ce8e79', 'feature_group_13bac5c438712a996b6192f114a22e2b', 'feature_group_8e915bab0e22ab4155cce1d3b0d93bed', 'feature_group_039ee4120dfad5f2a85ffa83dbb890da'];
+    var waterLayerNames = ['feature_group_f88abc87f8e877c9f17f89f1b5dbc071', 'feature_group_9dbf69a75c73821ab2b16b240c86f21e', 'feature_group_16ea3dc0eedf8452a136b5bfba9d6221', 'feature_group_35e620d922f4942b5ee75078a86a4d12', 'feature_group_c93d114d9f9b0ef89d8cd063e4955f16', 'feature_group_4ff5df3e557d688fa88863b7296f5e3d', 'feature_group_7e429871ef099e77d22065931d1a3234', 'feature_group_5c18119cde127e5ca399d60fe61f671b', 'feature_group_b20c8cf2e54b6e3c9c8b0e2da93bce90', 'feature_group_14a117d5a97c6c0e68da305e55cc0ec4', 'feature_group_b946c438a92481ca9245e1385427a5e5', 'feature_group_f4343af1f779859c0a69741d3f5d22bd'];
+    var airLayerNames = ['feature_group_442aa34e8ce90a5142ea04598b9a93a4', 'feature_group_cbaf1f3bce00f55e72800f8322746a21', 'feature_group_cf1288283a25a0a2581823fc02d6185f', 'feature_group_38a135cb202823cf7094476c64035ddc', 'feature_group_5b77c7f4a685f0d5ed501454868fe728', 'feature_group_6bd1d071addc3a98cbdae34c453e5e13', 'feature_group_96f4d9926f672c0c7d8d223fd36ff217', 'feature_group_cdce30b19f9c33a7a3c84514509ca2ba', 'feature_group_d37d8f215b6306e6ba5cdb785df0d17e', 'feature_group_37c19dca13aff6f26dee2d14cd3e591c', 'feature_group_4c04cf24e19cf970ab79f85cdd07057b', 'feature_group_277d9c38fe87082871e6a1861ddff327'];
+
+    function anyLayerVisible(layerNames) {
+        for (var i = 0; i < layerNames.length; i++) {
+            var layerName = layerNames[i];
+            if (window[layerName] && map.hasLayer(window[layerName])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function updateLegends() {
+        var salOn = anyLayerVisible(salLayerNames);
+        var waterOn = anyLayerVisible(waterLayerNames);
+        var airOn = anyLayerVisible(airLayerNames);
+
+        var salLegend = document.getElementById('legend-salinity');
+        var waterLegend = document.getElementById('legend-water');
+        var airLegend = document.getElementById('legend-air');
+
+        if (salLegend) {
+            salLegend.style.display = salOn ? 'block' : 'none';
+        }
+        if (waterLegend) {
+            waterLegend.style.display = waterOn ? 'block' : 'none';
+        }
+        if (airLegend) {
+            airLegend.style.display = airOn ? 'block' : 'none';
+        }
+    }
+
+    map.on('overlayadd', updateLegends);
+    map.on('overlayremove', updateLegends);
+
+    // run once after map fully loads
+    setTimeout(updateLegends, 300);
+});
+</script>
+    
+            <div class="folium-map" id="map_975cf236d075177bc48b76751f1349d5" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_975cf236d075177bc48b76751f1349d5 = L.map(
+                "map_975cf236d075177bc48b76751f1349d5",
+                {
+                    center: [40.658255535211254, -73.75873436478875],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 17,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_0fdbbff9da3b5ce97b2c570fadd76abe = L.tileLayer(
+                "https://mt1.google.com/vt/lyrs=s\u0026x={x}\u0026y={y}\u0026z={z}",
+                {
+  "minZoom": 0,
+  "maxZoom": 18,
+  "maxNativeZoom": 18,
+  "noWrap": false,
+  "attribution": "Google",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_0fdbbff9da3b5ce97b2c570fadd76abe.addTo(map_975cf236d075177bc48b76751f1349d5);
+        
+    
+            var feature_group_27def8e389f126288bb01f43fb96a19f = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_6f9f342c0acf5591d7d89e281bd026b3 = L.marker(
+                [40.660514, -73.744549],
+                {
+}
+            ).addTo(feature_group_27def8e389f126288bb01f43fb96a19f);
+        
+    
+            var icon_bfc95620aa2516abd3f590de8e23a6c6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a4cc77dc3259a2bb398b11a463a936cd = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_848650802e972a962a8248dc02d5cc64 = $(`<div id="html_848650802e972a962a8248dc02d5cc64" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Brookvile Loc 2</h4>         <b>Date:</b> 1/9/2026<br>         <b>Time:</b> 11:41 AM<br>         <b>Water Temp:</b> 8.00 °C<br>         <b>Air Temp:</b> 7.80 °C<br>         <b>Salinity:</b> 20.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Chains- Thalassionema<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_a4cc77dc3259a2bb398b11a463a936cd.setContent(html_848650802e972a962a8248dc02d5cc64);
+            
+        
+
+        marker_6f9f342c0acf5591d7d89e281bd026b3.bindPopup(popup_a4cc77dc3259a2bb398b11a463a936cd)
+        ;
+
+        
+    
+    
+            marker_6f9f342c0acf5591d7d89e281bd026b3.bindTooltip(
+                `<div>
+                     Brookvile Loc 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6f9f342c0acf5591d7d89e281bd026b3.setIcon(icon_bfc95620aa2516abd3f590de8e23a6c6);
+            
+    
+            var marker_c2d785f2f62b7ad330a43952354e2370 = L.marker(
+                [40.6496115, -73.7370297],
+                {
+}
+            ).addTo(feature_group_27def8e389f126288bb01f43fb96a19f);
+        
+    
+            var icon_4d927bef5e375aec26d28263662b134c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b4ef1fd1bdf069800cce791a25ea9c69 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_ba5f6bc16df042eca052a203c1a8d71a = $(`<div id="html_ba5f6bc16df042eca052a203c1a8d71a" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Kayak Launch</h4>         <b>Date:</b> 1/9/2026<br>         <b>Time:</b> 11:08 AM<br>         <b>Water Temp:</b> 4.00 °C<br>         <b>Air Temp:</b> 5.90 °C<br>         <b>Salinity:</b> 30.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Chains- Thalassionema<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_b4ef1fd1bdf069800cce791a25ea9c69.setContent(html_ba5f6bc16df042eca052a203c1a8d71a);
+            
+        
+
+        marker_c2d785f2f62b7ad330a43952354e2370.bindPopup(popup_b4ef1fd1bdf069800cce791a25ea9c69)
+        ;
+
+        
+    
+    
+            marker_c2d785f2f62b7ad330a43952354e2370.bindTooltip(
+                `<div>
+                     Kayak Launch
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c2d785f2f62b7ad330a43952354e2370.setIcon(icon_4d927bef5e375aec26d28263662b134c);
+            
+    
+            var marker_265e35406df1975f88135b60e580d68a = L.marker(
+                [40.657778, -73.760278],
+                {
+}
+            ).addTo(feature_group_27def8e389f126288bb01f43fb96a19f);
+        
+    
+            var icon_a80455ccb3c67e3d48d473ad632969cb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_550a09237856dfa6ee4cddce45bbf361 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_8a4c4a3d4a489a03d15e73b224f5ecf5 = $(`<div id="html_8a4c4a3d4a489a03d15e73b224f5ecf5" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1- Idlewild</h4>         <b>Date:</b> 1/9/2026<br>         <b>Time:</b> 12:00 PM<br>         <b>Water Temp:</b> 6.00 °C<br>         <b>Air Temp:</b> 8.30 °C<br>         <b>Salinity:</b> 25.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Dinoflagellate<br>                 <b>ID:</b> Heterocaspa<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_550a09237856dfa6ee4cddce45bbf361.setContent(html_8a4c4a3d4a489a03d15e73b224f5ecf5);
+            
+        
+
+        marker_265e35406df1975f88135b60e580d68a.bindPopup(popup_550a09237856dfa6ee4cddce45bbf361)
+        ;
+
+        
+    
+    
+            marker_265e35406df1975f88135b60e580d68a.bindTooltip(
+                `<div>
+                     Loc 1- Idlewild
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_265e35406df1975f88135b60e580d68a.setIcon(icon_a80455ccb3c67e3d48d473ad632969cb);
+            
+    
+            feature_group_27def8e389f126288bb01f43fb96a19f.addTo(map_975cf236d075177bc48b76751f1349d5);
+        
+    
+            var feature_group_ba2325da756424e9868a028ae8e211a1 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_1680972dcedc240bd06a12640969e5d7 = L.circleMarker(
+                [40.660514, -73.744549],
+                {"bubblingMouseEvents": true, "color": "#ffe100ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe100ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_ba2325da756424e9868a028ae8e211a1);
+        
+    
+        var popup_c3dc0e3c4a4a8aaf63c5e87ae1468c20 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_fa9dc101956a53168b6891fd0f3d56d5 = $(`<div id="html_fa9dc101956a53168b6891fd0f3d56d5" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Brookvile Loc 2</h4>         <b>Date:</b> 1/9/2026<br>         <b>Time:</b> 11:41 AM<br>         <b>Water Temp:</b> 8.00 °C<br>         <b>Air Temp:</b> 7.80 °C<br>         <b>Salinity:</b> 20.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Chains- Thalassionema<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_c3dc0e3c4a4a8aaf63c5e87ae1468c20.setContent(html_fa9dc101956a53168b6891fd0f3d56d5);
+            
+        
+
+        circle_marker_1680972dcedc240bd06a12640969e5d7.bindPopup(popup_c3dc0e3c4a4a8aaf63c5e87ae1468c20)
+        ;
+
+        
+    
+    
+            circle_marker_1680972dcedc240bd06a12640969e5d7.bindTooltip(
+                `<div>
+                     Brookvile Loc 2 | Salinity: 20.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_10e55564762859a0f9422929eda43f59 = L.circleMarker(
+                [40.6496115, -73.7370297],
+                {"bubblingMouseEvents": true, "color": "#ff0000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff0000ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_ba2325da756424e9868a028ae8e211a1);
+        
+    
+        var popup_62a5a1e191e8d64079b59cc5490244ae = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_c17f50860b43218ac821ea287476f0e6 = $(`<div id="html_c17f50860b43218ac821ea287476f0e6" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Kayak Launch</h4>         <b>Date:</b> 1/9/2026<br>         <b>Time:</b> 11:08 AM<br>         <b>Water Temp:</b> 4.00 °C<br>         <b>Air Temp:</b> 5.90 °C<br>         <b>Salinity:</b> 30.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Chains- Thalassionema<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_62a5a1e191e8d64079b59cc5490244ae.setContent(html_c17f50860b43218ac821ea287476f0e6);
+            
+        
+
+        circle_marker_10e55564762859a0f9422929eda43f59.bindPopup(popup_62a5a1e191e8d64079b59cc5490244ae)
+        ;
+
+        
+    
+    
+            circle_marker_10e55564762859a0f9422929eda43f59.bindTooltip(
+                `<div>
+                     Kayak Launch | Salinity: 30.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c91c3fd1de171b639029cca73c54ee9b = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ff8a00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff8a00ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_ba2325da756424e9868a028ae8e211a1);
+        
+    
+        var popup_eb965dd2789452c7cf074d200af2388f = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_d20429478db7aff53b40284250339530 = $(`<div id="html_d20429478db7aff53b40284250339530" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1- Idlewild</h4>         <b>Date:</b> 1/9/2026<br>         <b>Time:</b> 12:00 PM<br>         <b>Water Temp:</b> 6.00 °C<br>         <b>Air Temp:</b> 8.30 °C<br>         <b>Salinity:</b> 25.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Dinoflagellate<br>                 <b>ID:</b> Heterocaspa<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_eb965dd2789452c7cf074d200af2388f.setContent(html_d20429478db7aff53b40284250339530);
+            
+        
+
+        circle_marker_c91c3fd1de171b639029cca73c54ee9b.bindPopup(popup_eb965dd2789452c7cf074d200af2388f)
+        ;
+
+        
+    
+    
+            circle_marker_c91c3fd1de171b639029cca73c54ee9b.bindTooltip(
+                `<div>
+                     Loc 1- Idlewild | Salinity: 25.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_f88abc87f8e877c9f17f89f1b5dbc071 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_f3d68ddc10fbe44c6d66abb230ec4517 = L.circleMarker(
+                [40.660514, -73.744549],
+                {"bubblingMouseEvents": true, "color": "#0061ffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0061ffff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_f88abc87f8e877c9f17f89f1b5dbc071);
+        
+    
+        var popup_f9ea680b07feedf4fd6c38bec6be01fa = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_8bedec120f3779697ba980446af4aeaf = $(`<div id="html_8bedec120f3779697ba980446af4aeaf" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Brookvile Loc 2</h4>         <b>Date:</b> 1/9/2026<br>         <b>Time:</b> 11:41 AM<br>         <b>Water Temp:</b> 8.00 °C<br>         <b>Air Temp:</b> 7.80 °C<br>         <b>Salinity:</b> 20.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Chains- Thalassionema<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_f9ea680b07feedf4fd6c38bec6be01fa.setContent(html_8bedec120f3779697ba980446af4aeaf);
+            
+        
+
+        circle_marker_f3d68ddc10fbe44c6d66abb230ec4517.bindPopup(popup_f9ea680b07feedf4fd6c38bec6be01fa)
+        ;
+
+        
+    
+    
+            circle_marker_f3d68ddc10fbe44c6d66abb230ec4517.bindTooltip(
+                `<div>
+                     Brookvile Loc 2 | Water Temp: 8.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_204bd73406412d6acbcd39aba7934601 = L.circleMarker(
+                [40.6496115, -73.7370297],
+                {"bubblingMouseEvents": true, "color": "#0000dbff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0000dbff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_f88abc87f8e877c9f17f89f1b5dbc071);
+        
+    
+        var popup_d396306054872669121d08b129d8980d = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_95d9c167d2fdba41d0bbde6293757d67 = $(`<div id="html_95d9c167d2fdba41d0bbde6293757d67" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Kayak Launch</h4>         <b>Date:</b> 1/9/2026<br>         <b>Time:</b> 11:08 AM<br>         <b>Water Temp:</b> 4.00 °C<br>         <b>Air Temp:</b> 5.90 °C<br>         <b>Salinity:</b> 30.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Chains- Thalassionema<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_d396306054872669121d08b129d8980d.setContent(html_95d9c167d2fdba41d0bbde6293757d67);
+            
+        
+
+        circle_marker_204bd73406412d6acbcd39aba7934601.bindPopup(popup_d396306054872669121d08b129d8980d)
+        ;
+
+        
+    
+    
+            circle_marker_204bd73406412d6acbcd39aba7934601.bindTooltip(
+                `<div>
+                     Kayak Launch | Water Temp: 4.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e8a1c4d0dc26da19cbf5f310f5fc7b23 = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#0008ffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0008ffff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_f88abc87f8e877c9f17f89f1b5dbc071);
+        
+    
+        var popup_37ca8bbe11d36950d3fe27a070e07bce = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_50855a6f420458ceda1d3d1a89705b62 = $(`<div id="html_50855a6f420458ceda1d3d1a89705b62" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1- Idlewild</h4>         <b>Date:</b> 1/9/2026<br>         <b>Time:</b> 12:00 PM<br>         <b>Water Temp:</b> 6.00 °C<br>         <b>Air Temp:</b> 8.30 °C<br>         <b>Salinity:</b> 25.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Dinoflagellate<br>                 <b>ID:</b> Heterocaspa<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_37ca8bbe11d36950d3fe27a070e07bce.setContent(html_50855a6f420458ceda1d3d1a89705b62);
+            
+        
+
+        circle_marker_e8a1c4d0dc26da19cbf5f310f5fc7b23.bindPopup(popup_37ca8bbe11d36950d3fe27a070e07bce)
+        ;
+
+        
+    
+    
+            circle_marker_e8a1c4d0dc26da19cbf5f310f5fc7b23.bindTooltip(
+                `<div>
+                     Loc 1- Idlewild | Water Temp: 6.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_442aa34e8ce90a5142ea04598b9a93a4 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_1960a2c0f216ae633d317ffadc877759 = L.circleMarker(
+                [40.660514, -73.744549],
+                {"bubblingMouseEvents": true, "color": "#004cffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#004cffff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_442aa34e8ce90a5142ea04598b9a93a4);
+        
+    
+        var popup_ac34a6fa546613139b9794c6522ef06f = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_421b8ef36cbcd71974c5ae9804af5e0d = $(`<div id="html_421b8ef36cbcd71974c5ae9804af5e0d" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Brookvile Loc 2</h4>         <b>Date:</b> 1/9/2026<br>         <b>Time:</b> 11:41 AM<br>         <b>Water Temp:</b> 8.00 °C<br>         <b>Air Temp:</b> 7.80 °C<br>         <b>Salinity:</b> 20.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Chains- Thalassionema<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_ac34a6fa546613139b9794c6522ef06f.setContent(html_421b8ef36cbcd71974c5ae9804af5e0d);
+            
+        
+
+        circle_marker_1960a2c0f216ae633d317ffadc877759.bindPopup(popup_ac34a6fa546613139b9794c6522ef06f)
+        ;
+
+        
+    
+    
+            circle_marker_1960a2c0f216ae633d317ffadc877759.bindTooltip(
+                `<div>
+                     Brookvile Loc 2 | Air Temp: 7.80 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c9438ca88eaf75f3288e3092a57e1df9 = L.circleMarker(
+                [40.6496115, -73.7370297],
+                {"bubblingMouseEvents": true, "color": "#0200fdff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0200fdff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_442aa34e8ce90a5142ea04598b9a93a4);
+        
+    
+        var popup_c5027384fc678db815ebe71ff1e99b28 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_0ba23f14517e3cfdabad4025231b6226 = $(`<div id="html_0ba23f14517e3cfdabad4025231b6226" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Kayak Launch</h4>         <b>Date:</b> 1/9/2026<br>         <b>Time:</b> 11:08 AM<br>         <b>Water Temp:</b> 4.00 °C<br>         <b>Air Temp:</b> 5.90 °C<br>         <b>Salinity:</b> 30.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Chains- Thalassionema<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_c5027384fc678db815ebe71ff1e99b28.setContent(html_0ba23f14517e3cfdabad4025231b6226);
+            
+        
+
+        circle_marker_c9438ca88eaf75f3288e3092a57e1df9.bindPopup(popup_c5027384fc678db815ebe71ff1e99b28)
+        ;
+
+        
+    
+    
+            circle_marker_c9438ca88eaf75f3288e3092a57e1df9.bindTooltip(
+                `<div>
+                     Kayak Launch | Air Temp: 5.90 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_65cdb750d03cdae04dbb56ecfe033ba4 = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#0062ffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0062ffff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_442aa34e8ce90a5142ea04598b9a93a4);
+        
+    
+        var popup_525a490646e7ae246fc5b88f9e2156ec = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_9915befaee1351d59e14eb209f5040fc = $(`<div id="html_9915befaee1351d59e14eb209f5040fc" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1- Idlewild</h4>         <b>Date:</b> 1/9/2026<br>         <b>Time:</b> 12:00 PM<br>         <b>Water Temp:</b> 6.00 °C<br>         <b>Air Temp:</b> 8.30 °C<br>         <b>Salinity:</b> 25.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Dinoflagellate<br>                 <b>ID:</b> Heterocaspa<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_525a490646e7ae246fc5b88f9e2156ec.setContent(html_9915befaee1351d59e14eb209f5040fc);
+            
+        
+
+        circle_marker_65cdb750d03cdae04dbb56ecfe033ba4.bindPopup(popup_525a490646e7ae246fc5b88f9e2156ec)
+        ;
+
+        
+    
+    
+            circle_marker_65cdb750d03cdae04dbb56ecfe033ba4.bindTooltip(
+                `<div>
+                     Loc 1- Idlewild | Air Temp: 8.30 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_19a565c22d880683e4ce191aa8614f9d = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_46bed0c125fe31be66bdd247bf51a85c = L.marker(
+                [40.657778, -73.760278],
+                {
+}
+            ).addTo(feature_group_19a565c22d880683e4ce191aa8614f9d);
+        
+    
+            var icon_dc67bfc391a954cddbf20d93f5851cbb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_34bd17564213bf744a298e2462c3267f = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_7a11c3622a5843b8df23ec62e4b2266a = $(`<div id="html_7a11c3622a5843b8df23ec62e4b2266a" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 10/4/2025<br>         <b>Time:</b> 10:00 AM<br>         <b>Water Temp:</b> 20.50 °C<br>         <b>Air Temp:</b> 20.00 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pennate Diatoms<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_34bd17564213bf744a298e2462c3267f.setContent(html_7a11c3622a5843b8df23ec62e4b2266a);
+            
+        
+
+        marker_46bed0c125fe31be66bdd247bf51a85c.bindPopup(popup_34bd17564213bf744a298e2462c3267f)
+        ;
+
+        
+    
+    
+            marker_46bed0c125fe31be66bdd247bf51a85c.bindTooltip(
+                `<div>
+                     Loc 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_46bed0c125fe31be66bdd247bf51a85c.setIcon(icon_dc67bfc391a954cddbf20d93f5851cbb);
+            
+    
+            var marker_5a4855200dcc24bf7eceb837c8952b6a = L.marker(
+                [40.65423, -73.757359],
+                {
+}
+            ).addTo(feature_group_19a565c22d880683e4ce191aa8614f9d);
+        
+    
+            var icon_4d225577b80de25fc7f02525cc70d80c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d6e3591aece7590b1cbf10267cea28cf = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_5038f588cb613653c135142c3fb27dd7 = $(`<div id="html_5038f588cb613653c135142c3fb27dd7" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Trail - Salt Marsh</h4>         <b>Date:</b> 10/4/2025<br>         <b>Time:</b> 9:30 AM<br>         <b>Water Temp:</b> 20.00 °C<br>         <b>Air Temp:</b> 20.00 °C<br>         <b>Salinity:</b> 26.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Cyanobacteria<br>                 <b>ID:</b> multiple species<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_d6e3591aece7590b1cbf10267cea28cf.setContent(html_5038f588cb613653c135142c3fb27dd7);
+            
+        
+
+        marker_5a4855200dcc24bf7eceb837c8952b6a.bindPopup(popup_d6e3591aece7590b1cbf10267cea28cf)
+        ;
+
+        
+    
+    
+            marker_5a4855200dcc24bf7eceb837c8952b6a.bindTooltip(
+                `<div>
+                     Trail - Salt Marsh
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5a4855200dcc24bf7eceb837c8952b6a.setIcon(icon_4d225577b80de25fc7f02525cc70d80c);
+            
+    
+            var feature_group_d51d6e8f7a732ce34f7a0309f0e377b4 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_87bbe641e58df0b969d8a7a2b02928e6 = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ffa500ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffa500ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_d51d6e8f7a732ce34f7a0309f0e377b4);
+        
+    
+        var popup_1a1ad62c68a32562b0b534afd459dbbb = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_ff0a1e9fe9d5a4225f99fa2b418035d0 = $(`<div id="html_ff0a1e9fe9d5a4225f99fa2b418035d0" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 10/4/2025<br>         <b>Time:</b> 10:00 AM<br>         <b>Water Temp:</b> 20.50 °C<br>         <b>Air Temp:</b> 20.00 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pennate Diatoms<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_1a1ad62c68a32562b0b534afd459dbbb.setContent(html_ff0a1e9fe9d5a4225f99fa2b418035d0);
+            
+        
+
+        circle_marker_87bbe641e58df0b969d8a7a2b02928e6.bindPopup(popup_1a1ad62c68a32562b0b534afd459dbbb)
+        ;
+
+        
+    
+    
+            circle_marker_87bbe641e58df0b969d8a7a2b02928e6.bindTooltip(
+                `<div>
+                     Loc 1 | Salinity: 24.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9115cb6edb7c5a6583035a2c0a902020 = L.circleMarker(
+                [40.65423, -73.757359],
+                {"bubblingMouseEvents": true, "color": "#ff6e00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6e00ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_d51d6e8f7a732ce34f7a0309f0e377b4);
+        
+    
+        var popup_734311f66d5949f226718d17619d12cb = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e6cbef8869381c730bdc99b1ce0f496c = $(`<div id="html_e6cbef8869381c730bdc99b1ce0f496c" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Trail - Salt Marsh</h4>         <b>Date:</b> 10/4/2025<br>         <b>Time:</b> 9:30 AM<br>         <b>Water Temp:</b> 20.00 °C<br>         <b>Air Temp:</b> 20.00 °C<br>         <b>Salinity:</b> 26.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Cyanobacteria<br>                 <b>ID:</b> multiple species<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_734311f66d5949f226718d17619d12cb.setContent(html_e6cbef8869381c730bdc99b1ce0f496c);
+            
+        
+
+        circle_marker_9115cb6edb7c5a6583035a2c0a902020.bindPopup(popup_734311f66d5949f226718d17619d12cb)
+        ;
+
+        
+    
+    
+            circle_marker_9115cb6edb7c5a6583035a2c0a902020.bindTooltip(
+                `<div>
+                     Trail - Salt Marsh | Salinity: 26.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_9dbf69a75c73821ab2b16b240c86f21e = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_6a2627eab8ecfe2c569de9002f9ac303 = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ffcf00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffcf00ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_9dbf69a75c73821ab2b16b240c86f21e);
+        
+    
+        var popup_e49c29aa35be71b7ca2d76f07b62700a = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_a9a4b8e67408708bfb0f10dd946133b7 = $(`<div id="html_a9a4b8e67408708bfb0f10dd946133b7" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 10/4/2025<br>         <b>Time:</b> 10:00 AM<br>         <b>Water Temp:</b> 20.50 °C<br>         <b>Air Temp:</b> 20.00 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pennate Diatoms<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_e49c29aa35be71b7ca2d76f07b62700a.setContent(html_a9a4b8e67408708bfb0f10dd946133b7);
+            
+        
+
+        circle_marker_6a2627eab8ecfe2c569de9002f9ac303.bindPopup(popup_e49c29aa35be71b7ca2d76f07b62700a)
+        ;
+
+        
+    
+    
+            circle_marker_6a2627eab8ecfe2c569de9002f9ac303.bindTooltip(
+                `<div>
+                     Loc 1 | Water Temp: 20.50 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_676f992b79dfa85fae57fbf85dfeafc3 = L.circleMarker(
+                [40.65423, -73.757359],
+                {"bubblingMouseEvents": true, "color": "#ffd700ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffd700ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_9dbf69a75c73821ab2b16b240c86f21e);
+        
+    
+        var popup_e38f786d971609741f40d0960fda083d = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_daf513f822b06488623b3799d9226540 = $(`<div id="html_daf513f822b06488623b3799d9226540" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Trail - Salt Marsh</h4>         <b>Date:</b> 10/4/2025<br>         <b>Time:</b> 9:30 AM<br>         <b>Water Temp:</b> 20.00 °C<br>         <b>Air Temp:</b> 20.00 °C<br>         <b>Salinity:</b> 26.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Cyanobacteria<br>                 <b>ID:</b> multiple species<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_e38f786d971609741f40d0960fda083d.setContent(html_daf513f822b06488623b3799d9226540);
+            
+        
+
+        circle_marker_676f992b79dfa85fae57fbf85dfeafc3.bindPopup(popup_e38f786d971609741f40d0960fda083d)
+        ;
+
+        
+    
+    
+            circle_marker_676f992b79dfa85fae57fbf85dfeafc3.bindTooltip(
+                `<div>
+                     Trail - Salt Marsh | Water Temp: 20.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_cbaf1f3bce00f55e72800f8322746a21 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_0a80b8569c60a810aaa57b9f2bdb3443 = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ffe100ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe100ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_cbaf1f3bce00f55e72800f8322746a21);
+        
+    
+        var popup_1d9fb194e783630fc5606febecc9ba5c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_2d6b4b3780dece880b1ed49a24559888 = $(`<div id="html_2d6b4b3780dece880b1ed49a24559888" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 10/4/2025<br>         <b>Time:</b> 10:00 AM<br>         <b>Water Temp:</b> 20.50 °C<br>         <b>Air Temp:</b> 20.00 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pennate Diatoms<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_1d9fb194e783630fc5606febecc9ba5c.setContent(html_2d6b4b3780dece880b1ed49a24559888);
+            
+        
+
+        circle_marker_0a80b8569c60a810aaa57b9f2bdb3443.bindPopup(popup_1d9fb194e783630fc5606febecc9ba5c)
+        ;
+
+        
+    
+    
+            circle_marker_0a80b8569c60a810aaa57b9f2bdb3443.bindTooltip(
+                `<div>
+                     Loc 1 | Air Temp: 20.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b8b53320c7f15dd8f04dd78b411d43fe = L.circleMarker(
+                [40.65423, -73.757359],
+                {"bubblingMouseEvents": true, "color": "#ffe100ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe100ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_cbaf1f3bce00f55e72800f8322746a21);
+        
+    
+        var popup_e67b37fd872a7727ca1a0563e4ee8136 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_c4a2c8c65edbcf41b196c04d51cc535c = $(`<div id="html_c4a2c8c65edbcf41b196c04d51cc535c" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Trail - Salt Marsh</h4>         <b>Date:</b> 10/4/2025<br>         <b>Time:</b> 9:30 AM<br>         <b>Water Temp:</b> 20.00 °C<br>         <b>Air Temp:</b> 20.00 °C<br>         <b>Salinity:</b> 26.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Cyanobacteria<br>                 <b>ID:</b> multiple species<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_e67b37fd872a7727ca1a0563e4ee8136.setContent(html_c4a2c8c65edbcf41b196c04d51cc535c);
+            
+        
+
+        circle_marker_b8b53320c7f15dd8f04dd78b411d43fe.bindPopup(popup_e67b37fd872a7727ca1a0563e4ee8136)
+        ;
+
+        
+    
+    
+            circle_marker_b8b53320c7f15dd8f04dd78b411d43fe.bindTooltip(
+                `<div>
+                     Trail - Salt Marsh | Air Temp: 20.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_5be7b8b733ccb3f7f61af949d7d30063 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_5d7ccb6d1f6cf6666b4e65a088155b1f = L.marker(
+                [40.659358, -73.761964],
+                {
+}
+            ).addTo(feature_group_5be7b8b733ccb3f7f61af949d7d30063);
+        
+    
+            var icon_46931e765b2cb83fa362e84ec1078825 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_520805acd7aec6bae638103eb0fbd826 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_56216f09d0c55807bac30d2b19e02120 = $(`<div id="html_56216f09d0c55807bac30d2b19e02120" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Blue Belt</h4>         <b>Date:</b> 12/27/2025<br>         <b>Time:</b> 12:00 PM<br>         <b>Water Temp:</b> 0.00 °C<br>         <b>Air Temp:</b> 0.00 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Thalassiosira<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_520805acd7aec6bae638103eb0fbd826.setContent(html_56216f09d0c55807bac30d2b19e02120);
+            
+        
+
+        marker_5d7ccb6d1f6cf6666b4e65a088155b1f.bindPopup(popup_520805acd7aec6bae638103eb0fbd826)
+        ;
+
+        
+    
+    
+            marker_5d7ccb6d1f6cf6666b4e65a088155b1f.bindTooltip(
+                `<div>
+                     Blue Belt
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5d7ccb6d1f6cf6666b4e65a088155b1f.setIcon(icon_46931e765b2cb83fa362e84ec1078825);
+            
+    
+            var feature_group_d304f5f271aaa584acef70af295d010b = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_76edd0fc020cd2aa8c319a9e06e899a4 = L.circleMarker(
+                [40.659358, -73.761964],
+                {"bubblingMouseEvents": true, "color": "#ffa500ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffa500ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_d304f5f271aaa584acef70af295d010b);
+        
+    
+        var popup_79d348615867aa0c5c003bc5feede5e1 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_1c369e1b976c51dac53a8e5cbeb72e57 = $(`<div id="html_1c369e1b976c51dac53a8e5cbeb72e57" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Blue Belt</h4>         <b>Date:</b> 12/27/2025<br>         <b>Time:</b> 12:00 PM<br>         <b>Water Temp:</b> 0.00 °C<br>         <b>Air Temp:</b> 0.00 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Thalassiosira<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_79d348615867aa0c5c003bc5feede5e1.setContent(html_1c369e1b976c51dac53a8e5cbeb72e57);
+            
+        
+
+        circle_marker_76edd0fc020cd2aa8c319a9e06e899a4.bindPopup(popup_79d348615867aa0c5c003bc5feede5e1)
+        ;
+
+        
+    
+    
+            circle_marker_76edd0fc020cd2aa8c319a9e06e899a4.bindTooltip(
+                `<div>
+                     Blue Belt | Salinity: 24.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_16ea3dc0eedf8452a136b5bfba9d6221 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_32e55316f817fd5a70637e9cc6bcc721 = L.circleMarker(
+                [40.659358, -73.761964],
+                {"bubblingMouseEvents": true, "color": "#00008bff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00008bff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_16ea3dc0eedf8452a136b5bfba9d6221);
+        
+    
+        var popup_84f61d8fdbedf5ae9bb7d2c40d64a440 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_4ddc72833c97651b4e7e3f85e03fd50a = $(`<div id="html_4ddc72833c97651b4e7e3f85e03fd50a" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Blue Belt</h4>         <b>Date:</b> 12/27/2025<br>         <b>Time:</b> 12:00 PM<br>         <b>Water Temp:</b> 0.00 °C<br>         <b>Air Temp:</b> 0.00 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Thalassiosira<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_84f61d8fdbedf5ae9bb7d2c40d64a440.setContent(html_4ddc72833c97651b4e7e3f85e03fd50a);
+            
+        
+
+        circle_marker_32e55316f817fd5a70637e9cc6bcc721.bindPopup(popup_84f61d8fdbedf5ae9bb7d2c40d64a440)
+        ;
+
+        
+    
+    
+            circle_marker_32e55316f817fd5a70637e9cc6bcc721.bindTooltip(
+                `<div>
+                     Blue Belt | Water Temp: 0.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_cf1288283a25a0a2581823fc02d6185f = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_1f94bfab6cec77551d8115da5318c2b1 = L.circleMarker(
+                [40.659358, -73.761964],
+                {"bubblingMouseEvents": true, "color": "#800080ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#800080ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_cf1288283a25a0a2581823fc02d6185f);
+        
+    
+        var popup_ceace4c6030616fd18d4044a36c7e85c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_0e379c42d101ccef67f1120aae6eab89 = $(`<div id="html_0e379c42d101ccef67f1120aae6eab89" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Blue Belt</h4>         <b>Date:</b> 12/27/2025<br>         <b>Time:</b> 12:00 PM<br>         <b>Water Temp:</b> 0.00 °C<br>         <b>Air Temp:</b> 0.00 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Thalassiosira<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_ceace4c6030616fd18d4044a36c7e85c.setContent(html_0e379c42d101ccef67f1120aae6eab89);
+            
+        
+
+        circle_marker_1f94bfab6cec77551d8115da5318c2b1.bindPopup(popup_ceace4c6030616fd18d4044a36c7e85c)
+        ;
+
+        
+    
+    
+            circle_marker_1f94bfab6cec77551d8115da5318c2b1.bindTooltip(
+                `<div>
+                     Blue Belt | Air Temp: 0.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_887a9e42f0d10fed24172820ffbe0402 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_7fcb327b0980493cb8111a9086889c68 = L.marker(
+                [40.65779, -73.74696],
+                {
+}
+            ).addTo(feature_group_887a9e42f0d10fed24172820ffbe0402);
+        
+    
+            var icon_c8f38c2225237abc67e68de891233e4a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5f32797cb8ebfc34c35b1156bb017cc8 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_cf5c5e268a66f0548f5cab37589c09c7 = $(`<div id="html_cf5c5e268a66f0548f5cab37589c09c7" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Broookville 1</h4>         <b>Date:</b> 2/21/2026<br>         <b>Time:</b> 1:00 PM<br>         <b>Water Temp:</b> 5.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 10.00 PSU              </div>     </div>`)[0];
+                popup_5f32797cb8ebfc34c35b1156bb017cc8.setContent(html_cf5c5e268a66f0548f5cab37589c09c7);
+            
+        
+
+        marker_7fcb327b0980493cb8111a9086889c68.bindPopup(popup_5f32797cb8ebfc34c35b1156bb017cc8)
+        ;
+
+        
+    
+    
+            marker_7fcb327b0980493cb8111a9086889c68.bindTooltip(
+                `<div>
+                     Broookville 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7fcb327b0980493cb8111a9086889c68.setIcon(icon_c8f38c2225237abc67e68de891233e4a);
+            
+    
+            var marker_8e1ca66399c9f9c0e90328a5bdd08447 = L.marker(
+                [40.660514, -73.744549],
+                {
+}
+            ).addTo(feature_group_887a9e42f0d10fed24172820ffbe0402);
+        
+    
+            var icon_da14bed4f68412b949f9563085bd8992 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1b8f55385546e163cc36b084c859d3b9 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_21db831c9be6324bba745381043f045c = $(`<div id="html_21db831c9be6324bba745381043f045c" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Broookville 2</h4>         <b>Date:</b> 2/21/2026<br>         <b>Time:</b> 1:25 PM<br>         <b>Water Temp:</b> 6.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 4.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Euglenoid<br>                 <b>ID:</b> Euglena<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_1b8f55385546e163cc36b084c859d3b9.setContent(html_21db831c9be6324bba745381043f045c);
+            
+        
+
+        marker_8e1ca66399c9f9c0e90328a5bdd08447.bindPopup(popup_1b8f55385546e163cc36b084c859d3b9)
+        ;
+
+        
+    
+    
+            marker_8e1ca66399c9f9c0e90328a5bdd08447.bindTooltip(
+                `<div>
+                     Broookville 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8e1ca66399c9f9c0e90328a5bdd08447.setIcon(icon_da14bed4f68412b949f9563085bd8992);
+            
+    
+            var marker_670dfafede51473070a24f335574cf1f = L.marker(
+                [40.657778, -73.760278],
+                {
+}
+            ).addTo(feature_group_887a9e42f0d10fed24172820ffbe0402);
+        
+    
+            var icon_2a00337acf7466ed3a77beeec1e1bbf3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6ed34bcb0beb356250c41346079ac8a5 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_826b711b508501a64da3c9823e29fcac = $(`<div id="html_826b711b508501a64da3c9823e29fcac" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1- Idlewild</h4>         <b>Date:</b> 2/21/2026<br>         <b>Time:</b> 9:00 AM<br>         <b>Water Temp:</b> 4.00 °C<br>         <b>Air Temp:</b> 5.00 °C<br>         <b>Salinity:</b> 23.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Chains<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_6ed34bcb0beb356250c41346079ac8a5.setContent(html_826b711b508501a64da3c9823e29fcac);
+            
+        
+
+        marker_670dfafede51473070a24f335574cf1f.bindPopup(popup_6ed34bcb0beb356250c41346079ac8a5)
+        ;
+
+        
+    
+    
+            marker_670dfafede51473070a24f335574cf1f.bindTooltip(
+                `<div>
+                     Loc 1- Idlewild
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_670dfafede51473070a24f335574cf1f.setIcon(icon_2a00337acf7466ed3a77beeec1e1bbf3);
+            
+    
+            var feature_group_a1aac1c6da61b75bac18b4edb6caebda = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_4ccb3006bd47d3001e8c7936e6e60e0d = L.circleMarker(
+                [40.65779, -73.74696],
+                {"bubblingMouseEvents": true, "color": "#00ab55ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00ab55ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_a1aac1c6da61b75bac18b4edb6caebda);
+        
+    
+        var popup_994c8e7844af0248193d0bffa831fc7b = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_a2556837d76711c94471348932d2f57b = $(`<div id="html_a2556837d76711c94471348932d2f57b" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Broookville 1</h4>         <b>Date:</b> 2/21/2026<br>         <b>Time:</b> 1:00 PM<br>         <b>Water Temp:</b> 5.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 10.00 PSU              </div>     </div>`)[0];
+                popup_994c8e7844af0248193d0bffa831fc7b.setContent(html_a2556837d76711c94471348932d2f57b);
+            
+        
+
+        circle_marker_4ccb3006bd47d3001e8c7936e6e60e0d.bindPopup(popup_994c8e7844af0248193d0bffa831fc7b)
+        ;
+
+        
+    
+    
+            circle_marker_4ccb3006bd47d3001e8c7936e6e60e0d.bindTooltip(
+                `<div>
+                     Broookville 1 | Salinity: 10.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_144201dabd281c8acbafb06376fa9573 = L.circleMarker(
+                [40.660514, -73.744549],
+                {"bubblingMouseEvents": true, "color": "#00aaffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#00aaffff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_a1aac1c6da61b75bac18b4edb6caebda);
+        
+    
+        var popup_ef4cf9153f094ed3415629fbb687e961 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_b1edf5e61a5ce60015ed9891332625bf = $(`<div id="html_b1edf5e61a5ce60015ed9891332625bf" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Broookville 2</h4>         <b>Date:</b> 2/21/2026<br>         <b>Time:</b> 1:25 PM<br>         <b>Water Temp:</b> 6.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 4.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Euglenoid<br>                 <b>ID:</b> Euglena<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_ef4cf9153f094ed3415629fbb687e961.setContent(html_b1edf5e61a5ce60015ed9891332625bf);
+            
+        
+
+        circle_marker_144201dabd281c8acbafb06376fa9573.bindPopup(popup_ef4cf9153f094ed3415629fbb687e961)
+        ;
+
+        
+    
+    
+            circle_marker_144201dabd281c8acbafb06376fa9573.bindTooltip(
+                `<div>
+                     Broookville 2 | Salinity: 4.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3f74cb775ec4aab94803af3501b9a889 = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ffb400ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffb400ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_a1aac1c6da61b75bac18b4edb6caebda);
+        
+    
+        var popup_feb86cfb2d1224fc793eab3c4f729c23 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_0c0947be08108482eeb5082216783a86 = $(`<div id="html_0c0947be08108482eeb5082216783a86" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1- Idlewild</h4>         <b>Date:</b> 2/21/2026<br>         <b>Time:</b> 9:00 AM<br>         <b>Water Temp:</b> 4.00 °C<br>         <b>Air Temp:</b> 5.00 °C<br>         <b>Salinity:</b> 23.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Chains<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_feb86cfb2d1224fc793eab3c4f729c23.setContent(html_0c0947be08108482eeb5082216783a86);
+            
+        
+
+        circle_marker_3f74cb775ec4aab94803af3501b9a889.bindPopup(popup_feb86cfb2d1224fc793eab3c4f729c23)
+        ;
+
+        
+    
+    
+            circle_marker_3f74cb775ec4aab94803af3501b9a889.bindTooltip(
+                `<div>
+                     Loc 1- Idlewild | Salinity: 23.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_35e620d922f4942b5ee75078a86a4d12 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_7811ccb2c5243849e2b5f24d7dc0c055 = L.circleMarker(
+                [40.65779, -73.74696],
+                {"bubblingMouseEvents": true, "color": "#0000efff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0000efff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_35e620d922f4942b5ee75078a86a4d12);
+        
+    
+        var popup_2acf28a2b11da48d367c58d6b674a1b7 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_a9bf02c13956d42b5912a13bbd769298 = $(`<div id="html_a9bf02c13956d42b5912a13bbd769298" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Broookville 1</h4>         <b>Date:</b> 2/21/2026<br>         <b>Time:</b> 1:00 PM<br>         <b>Water Temp:</b> 5.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 10.00 PSU              </div>     </div>`)[0];
+                popup_2acf28a2b11da48d367c58d6b674a1b7.setContent(html_a9bf02c13956d42b5912a13bbd769298);
+            
+        
+
+        circle_marker_7811ccb2c5243849e2b5f24d7dc0c055.bindPopup(popup_2acf28a2b11da48d367c58d6b674a1b7)
+        ;
+
+        
+    
+    
+            circle_marker_7811ccb2c5243849e2b5f24d7dc0c055.bindTooltip(
+                `<div>
+                     Broookville 1 | Water Temp: 5.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e8691c57ce4503a994b219a7151cb6cd = L.circleMarker(
+                [40.660514, -73.744549],
+                {"bubblingMouseEvents": true, "color": "#0008ffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0008ffff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_35e620d922f4942b5ee75078a86a4d12);
+        
+    
+        var popup_f887637664c7643cd70a146e8543dbf7 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_627828920c3a87bea3e9e1acbad79841 = $(`<div id="html_627828920c3a87bea3e9e1acbad79841" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Broookville 2</h4>         <b>Date:</b> 2/21/2026<br>         <b>Time:</b> 1:25 PM<br>         <b>Water Temp:</b> 6.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 4.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Euglenoid<br>                 <b>ID:</b> Euglena<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_f887637664c7643cd70a146e8543dbf7.setContent(html_627828920c3a87bea3e9e1acbad79841);
+            
+        
+
+        circle_marker_e8691c57ce4503a994b219a7151cb6cd.bindPopup(popup_f887637664c7643cd70a146e8543dbf7)
+        ;
+
+        
+    
+    
+            circle_marker_e8691c57ce4503a994b219a7151cb6cd.bindTooltip(
+                `<div>
+                     Broookville 2 | Water Temp: 6.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_749b5b7d84d58b34e3da890d247ba3f9 = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#0000dbff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0000dbff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_35e620d922f4942b5ee75078a86a4d12);
+        
+    
+        var popup_a5648926ea5946470e7ca3058e5d6873 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_2d995ffd0799c4a74908c38617ca3596 = $(`<div id="html_2d995ffd0799c4a74908c38617ca3596" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1- Idlewild</h4>         <b>Date:</b> 2/21/2026<br>         <b>Time:</b> 9:00 AM<br>         <b>Water Temp:</b> 4.00 °C<br>         <b>Air Temp:</b> 5.00 °C<br>         <b>Salinity:</b> 23.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Chains<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_a5648926ea5946470e7ca3058e5d6873.setContent(html_2d995ffd0799c4a74908c38617ca3596);
+            
+        
+
+        circle_marker_749b5b7d84d58b34e3da890d247ba3f9.bindPopup(popup_a5648926ea5946470e7ca3058e5d6873)
+        ;
+
+        
+    
+    
+            circle_marker_749b5b7d84d58b34e3da890d247ba3f9.bindTooltip(
+                `<div>
+                     Loc 1- Idlewild | Water Temp: 4.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_38a135cb202823cf7094476c64035ddc = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_ac6836cd3533cebeaf9248137cde8a55 = L.circleMarker(
+                [40.65779, -73.74696],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_38a135cb202823cf7094476c64035ddc);
+        
+    
+        var popup_4515de8b2c484e58600c845cb6ed9e33 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_c2681e76c7c32eddca2889d5d329312f = $(`<div id="html_c2681e76c7c32eddca2889d5d329312f" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Broookville 1</h4>         <b>Date:</b> 2/21/2026<br>         <b>Time:</b> 1:00 PM<br>         <b>Water Temp:</b> 5.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 10.00 PSU              </div>     </div>`)[0];
+                popup_4515de8b2c484e58600c845cb6ed9e33.setContent(html_c2681e76c7c32eddca2889d5d329312f);
+            
+        
+
+        circle_marker_ac6836cd3533cebeaf9248137cde8a55.bindPopup(popup_4515de8b2c484e58600c845cb6ed9e33)
+        ;
+
+        
+    
+    
+            circle_marker_ac6836cd3533cebeaf9248137cde8a55.bindTooltip(
+                `<div>
+                     Broookville 1 | Air Temp: N/A °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ba467aa1b91f1e70e06092f1bb05b6b6 = L.circleMarker(
+                [40.660514, -73.744549],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_38a135cb202823cf7094476c64035ddc);
+        
+    
+        var popup_7d1db5d752e312ca698a8ffc7fe1c46b = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_fdc59675a5d37272f24615ff8dbe8f05 = $(`<div id="html_fdc59675a5d37272f24615ff8dbe8f05" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Broookville 2</h4>         <b>Date:</b> 2/21/2026<br>         <b>Time:</b> 1:25 PM<br>         <b>Water Temp:</b> 6.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 4.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Euglenoid<br>                 <b>ID:</b> Euglena<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_7d1db5d752e312ca698a8ffc7fe1c46b.setContent(html_fdc59675a5d37272f24615ff8dbe8f05);
+            
+        
+
+        circle_marker_ba467aa1b91f1e70e06092f1bb05b6b6.bindPopup(popup_7d1db5d752e312ca698a8ffc7fe1c46b)
+        ;
+
+        
+    
+    
+            circle_marker_ba467aa1b91f1e70e06092f1bb05b6b6.bindTooltip(
+                `<div>
+                     Broookville 2 | Air Temp: N/A °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6cd3d3a2d1ec2beecb2cdce2da111178 = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#1500eaff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1500eaff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_38a135cb202823cf7094476c64035ddc);
+        
+    
+        var popup_a4bab1244b7b9c4a142460bf550273b2 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_51775c430c620c21bcb595bb44d4d65e = $(`<div id="html_51775c430c620c21bcb595bb44d4d65e" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1- Idlewild</h4>         <b>Date:</b> 2/21/2026<br>         <b>Time:</b> 9:00 AM<br>         <b>Water Temp:</b> 4.00 °C<br>         <b>Air Temp:</b> 5.00 °C<br>         <b>Salinity:</b> 23.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Chains<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_a4bab1244b7b9c4a142460bf550273b2.setContent(html_51775c430c620c21bcb595bb44d4d65e);
+            
+        
+
+        circle_marker_6cd3d3a2d1ec2beecb2cdce2da111178.bindPopup(popup_a4bab1244b7b9c4a142460bf550273b2)
+        ;
+
+        
+    
+    
+            circle_marker_6cd3d3a2d1ec2beecb2cdce2da111178.bindTooltip(
+                `<div>
+                     Loc 1- Idlewild | Air Temp: 5.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_f9b7117adcb21519cb07c734194df7bc = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_da177be04c42dbdedb1a821b79e35820 = L.marker(
+                [40.63782, -73.83312],
+                {
+}
+            ).addTo(feature_group_f9b7117adcb21519cb07c734194df7bc);
+        
+    
+            var icon_8979dece95972e0df7a492353f802950 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_88701dc3966e734502142f33f7d0422d = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_eb6db7dec930998db0b5a985ad2bc91b = $(`<div id="html_eb6db7dec930998db0b5a985ad2bc91b" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>North Channel</h4>         <b>Date:</b> 2/28/2026<br>         <b>Time:</b> N/A<br>         <b>Water Temp:</b> N/A °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> N/A PSU              </div>     </div>`)[0];
+                popup_88701dc3966e734502142f33f7d0422d.setContent(html_eb6db7dec930998db0b5a985ad2bc91b);
+            
+        
+
+        marker_da177be04c42dbdedb1a821b79e35820.bindPopup(popup_88701dc3966e734502142f33f7d0422d)
+        ;
+
+        
+    
+    
+            marker_da177be04c42dbdedb1a821b79e35820.bindTooltip(
+                `<div>
+                     North Channel
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_da177be04c42dbdedb1a821b79e35820.setIcon(icon_8979dece95972e0df7a492353f802950);
+            
+    
+            var feature_group_123ec357abfae69aea4e7dadd50a0a17 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_a881d9c173cdb9471894a6a451d265b6 = L.circleMarker(
+                [40.63782, -73.83312],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_123ec357abfae69aea4e7dadd50a0a17);
+        
+    
+        var popup_55852fed164066f784cc4f2963119880 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_62eba8631754a4628ddfb00e617ef22f = $(`<div id="html_62eba8631754a4628ddfb00e617ef22f" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>North Channel</h4>         <b>Date:</b> 2/28/2026<br>         <b>Time:</b> N/A<br>         <b>Water Temp:</b> N/A °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> N/A PSU              </div>     </div>`)[0];
+                popup_55852fed164066f784cc4f2963119880.setContent(html_62eba8631754a4628ddfb00e617ef22f);
+            
+        
+
+        circle_marker_a881d9c173cdb9471894a6a451d265b6.bindPopup(popup_55852fed164066f784cc4f2963119880)
+        ;
+
+        
+    
+    
+            circle_marker_a881d9c173cdb9471894a6a451d265b6.bindTooltip(
+                `<div>
+                     North Channel | Salinity: N/A PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_c93d114d9f9b0ef89d8cd063e4955f16 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_fae662be28be18a8f451359776b95f1e = L.circleMarker(
+                [40.63782, -73.83312],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_c93d114d9f9b0ef89d8cd063e4955f16);
+        
+    
+        var popup_0dacc6464b1e0833e817418c1fb1ec9d = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_9ee4842bda1575a88428f345375f89d0 = $(`<div id="html_9ee4842bda1575a88428f345375f89d0" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>North Channel</h4>         <b>Date:</b> 2/28/2026<br>         <b>Time:</b> N/A<br>         <b>Water Temp:</b> N/A °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> N/A PSU              </div>     </div>`)[0];
+                popup_0dacc6464b1e0833e817418c1fb1ec9d.setContent(html_9ee4842bda1575a88428f345375f89d0);
+            
+        
+
+        circle_marker_fae662be28be18a8f451359776b95f1e.bindPopup(popup_0dacc6464b1e0833e817418c1fb1ec9d)
+        ;
+
+        
+    
+    
+            circle_marker_fae662be28be18a8f451359776b95f1e.bindTooltip(
+                `<div>
+                     North Channel | Water Temp: N/A °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_5b77c7f4a685f0d5ed501454868fe728 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_a3d2aa53680fb120e1a21dda58041766 = L.circleMarker(
+                [40.63782, -73.83312],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_5b77c7f4a685f0d5ed501454868fe728);
+        
+    
+        var popup_5874987717e6fd5fc9f33e1fc354fa94 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_939537e23e5834721d4ccbcfc7a792ed = $(`<div id="html_939537e23e5834721d4ccbcfc7a792ed" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>North Channel</h4>         <b>Date:</b> 2/28/2026<br>         <b>Time:</b> N/A<br>         <b>Water Temp:</b> N/A °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> N/A PSU              </div>     </div>`)[0];
+                popup_5874987717e6fd5fc9f33e1fc354fa94.setContent(html_939537e23e5834721d4ccbcfc7a792ed);
+            
+        
+
+        circle_marker_a3d2aa53680fb120e1a21dda58041766.bindPopup(popup_5874987717e6fd5fc9f33e1fc354fa94)
+        ;
+
+        
+    
+    
+            circle_marker_a3d2aa53680fb120e1a21dda58041766.bindTooltip(
+                `<div>
+                     North Channel | Air Temp: N/A °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_5b15d441f7466642d418dc284ff6d3a8 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_9f19303158ae40008b828b2dd678acc0 = L.marker(
+                [40.657882, -73.76111],
+                {
+}
+            ).addTo(feature_group_5b15d441f7466642d418dc284ff6d3a8);
+        
+    
+            var icon_b604d54837252f5ef977b8c2d739736f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_009f3ab5d6a9d050e7e7041fc6484fac = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_fae768d28f00134b8b5f88cbdf20acd5 = $(`<div id="html_fae768d28f00134b8b5f88cbdf20acd5" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Behind Center</h4>         <b>Date:</b> 4/18/2026<br>         <b>Time:</b> 1:45 PM<br>         <b>Water Temp:</b> 20.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 24.00 PSU              </div>     </div>`)[0];
+                popup_009f3ab5d6a9d050e7e7041fc6484fac.setContent(html_fae768d28f00134b8b5f88cbdf20acd5);
+            
+        
+
+        marker_9f19303158ae40008b828b2dd678acc0.bindPopup(popup_009f3ab5d6a9d050e7e7041fc6484fac)
+        ;
+
+        
+    
+    
+            marker_9f19303158ae40008b828b2dd678acc0.bindTooltip(
+                `<div>
+                     Behind Center
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9f19303158ae40008b828b2dd678acc0.setIcon(icon_b604d54837252f5ef977b8c2d739736f);
+            
+    
+            var marker_c633167add522a62646cf267329e2320 = L.marker(
+                [40.659358, -73.761964],
+                {
+}
+            ).addTo(feature_group_5b15d441f7466642d418dc284ff6d3a8);
+        
+    
+            var icon_afee9a8b2c716cca1d44c61b3d2f222f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_239e8aea48a329f106d0e30be0260d59 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_6128481f3967b21410c4aeca9306e605 = $(`<div id="html_6128481f3967b21410c4aeca9306e605" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Blue Belt</h4>         <b>Date:</b> 4/18/2026<br>         <b>Time:</b> 1:00 PM<br>         <b>Water Temp:</b> 19.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 16.50 PSU              </div>     </div>`)[0];
+                popup_239e8aea48a329f106d0e30be0260d59.setContent(html_6128481f3967b21410c4aeca9306e605);
+            
+        
+
+        marker_c633167add522a62646cf267329e2320.bindPopup(popup_239e8aea48a329f106d0e30be0260d59)
+        ;
+
+        
+    
+    
+            marker_c633167add522a62646cf267329e2320.bindTooltip(
+                `<div>
+                     Blue Belt
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c633167add522a62646cf267329e2320.setIcon(icon_afee9a8b2c716cca1d44c61b3d2f222f);
+            
+    
+            var feature_group_c957860622991135497ab26b414aaf2d = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_ede59361461125ac206d1078048f41ef = L.circleMarker(
+                [40.657882, -73.76111],
+                {"bubblingMouseEvents": true, "color": "#ffa500ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffa500ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_c957860622991135497ab26b414aaf2d);
+        
+    
+        var popup_d366ae51b020747c63c889b0f0339ad2 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_9846078c94ae6db8b94a3cb3cc0d4020 = $(`<div id="html_9846078c94ae6db8b94a3cb3cc0d4020" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Behind Center</h4>         <b>Date:</b> 4/18/2026<br>         <b>Time:</b> 1:45 PM<br>         <b>Water Temp:</b> 20.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 24.00 PSU              </div>     </div>`)[0];
+                popup_d366ae51b020747c63c889b0f0339ad2.setContent(html_9846078c94ae6db8b94a3cb3cc0d4020);
+            
+        
+
+        circle_marker_ede59361461125ac206d1078048f41ef.bindPopup(popup_d366ae51b020747c63c889b0f0339ad2)
+        ;
+
+        
+    
+    
+            circle_marker_ede59361461125ac206d1078048f41ef.bindTooltip(
+                `<div>
+                     Behind Center | Salinity: 24.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e780a9e0b0ba5efe800b92ad2465e253 = L.circleMarker(
+                [40.659358, -73.761964],
+                {"bubblingMouseEvents": true, "color": "#bfe000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#bfe000ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_c957860622991135497ab26b414aaf2d);
+        
+    
+        var popup_295da742e3c4b2a0c56d5ac7458d031b = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_828055c52205eb6ad1f7d8773b2546fc = $(`<div id="html_828055c52205eb6ad1f7d8773b2546fc" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Blue Belt</h4>         <b>Date:</b> 4/18/2026<br>         <b>Time:</b> 1:00 PM<br>         <b>Water Temp:</b> 19.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 16.50 PSU              </div>     </div>`)[0];
+                popup_295da742e3c4b2a0c56d5ac7458d031b.setContent(html_828055c52205eb6ad1f7d8773b2546fc);
+            
+        
+
+        circle_marker_e780a9e0b0ba5efe800b92ad2465e253.bindPopup(popup_295da742e3c4b2a0c56d5ac7458d031b)
+        ;
+
+        
+    
+    
+            circle_marker_e780a9e0b0ba5efe800b92ad2465e253.bindTooltip(
+                `<div>
+                     Blue Belt | Salinity: 16.50 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_4ff5df3e557d688fa88863b7296f5e3d = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_4a1ebeddf974a5dab6a85d2f1aaf4630 = L.circleMarker(
+                [40.657882, -73.76111],
+                {"bubblingMouseEvents": true, "color": "#ffd700ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffd700ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_4ff5df3e557d688fa88863b7296f5e3d);
+        
+    
+        var popup_26ec05b5be9a3e10beeb0e54f3459df6 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_9af2da9d2289ff8f2684c59382af54d5 = $(`<div id="html_9af2da9d2289ff8f2684c59382af54d5" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Behind Center</h4>         <b>Date:</b> 4/18/2026<br>         <b>Time:</b> 1:45 PM<br>         <b>Water Temp:</b> 20.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 24.00 PSU              </div>     </div>`)[0];
+                popup_26ec05b5be9a3e10beeb0e54f3459df6.setContent(html_9af2da9d2289ff8f2684c59382af54d5);
+            
+        
+
+        circle_marker_4a1ebeddf974a5dab6a85d2f1aaf4630.bindPopup(popup_26ec05b5be9a3e10beeb0e54f3459df6)
+        ;
+
+        
+    
+    
+            circle_marker_4a1ebeddf974a5dab6a85d2f1aaf4630.bindTooltip(
+                `<div>
+                     Behind Center | Water Temp: 20.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0cffc3ef2c73922942ff405bb70f264c = L.circleMarker(
+                [40.659358, -73.761964],
+                {"bubblingMouseEvents": true, "color": "#ffe700ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe700ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_4ff5df3e557d688fa88863b7296f5e3d);
+        
+    
+        var popup_d1f1821a90afaabf6b54dfde15597cb0 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_60949172bd86a6c56b7d41172b36cd5f = $(`<div id="html_60949172bd86a6c56b7d41172b36cd5f" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Blue Belt</h4>         <b>Date:</b> 4/18/2026<br>         <b>Time:</b> 1:00 PM<br>         <b>Water Temp:</b> 19.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 16.50 PSU              </div>     </div>`)[0];
+                popup_d1f1821a90afaabf6b54dfde15597cb0.setContent(html_60949172bd86a6c56b7d41172b36cd5f);
+            
+        
+
+        circle_marker_0cffc3ef2c73922942ff405bb70f264c.bindPopup(popup_d1f1821a90afaabf6b54dfde15597cb0)
+        ;
+
+        
+    
+    
+            circle_marker_0cffc3ef2c73922942ff405bb70f264c.bindTooltip(
+                `<div>
+                     Blue Belt | Water Temp: 19.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_6bd1d071addc3a98cbdae34c453e5e13 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_2cf02a9d1bbca244fdb40372ffa19ee8 = L.circleMarker(
+                [40.657882, -73.76111],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_6bd1d071addc3a98cbdae34c453e5e13);
+        
+    
+        var popup_c1d301836b1bc6da8a09d8b1c7f092e2 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_26f06d95285dbce6d62206023dbd3679 = $(`<div id="html_26f06d95285dbce6d62206023dbd3679" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Behind Center</h4>         <b>Date:</b> 4/18/2026<br>         <b>Time:</b> 1:45 PM<br>         <b>Water Temp:</b> 20.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 24.00 PSU              </div>     </div>`)[0];
+                popup_c1d301836b1bc6da8a09d8b1c7f092e2.setContent(html_26f06d95285dbce6d62206023dbd3679);
+            
+        
+
+        circle_marker_2cf02a9d1bbca244fdb40372ffa19ee8.bindPopup(popup_c1d301836b1bc6da8a09d8b1c7f092e2)
+        ;
+
+        
+    
+    
+            circle_marker_2cf02a9d1bbca244fdb40372ffa19ee8.bindTooltip(
+                `<div>
+                     Behind Center | Air Temp: N/A °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bb715e866fb021863cf519a0b27c17ed = L.circleMarker(
+                [40.659358, -73.761964],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_6bd1d071addc3a98cbdae34c453e5e13);
+        
+    
+        var popup_53e96919c465d88a3a6df5a71badf0b8 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_110cd388945267a50f5845a65ad36514 = $(`<div id="html_110cd388945267a50f5845a65ad36514" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Blue Belt</h4>         <b>Date:</b> 4/18/2026<br>         <b>Time:</b> 1:00 PM<br>         <b>Water Temp:</b> 19.00 °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 16.50 PSU              </div>     </div>`)[0];
+                popup_53e96919c465d88a3a6df5a71badf0b8.setContent(html_110cd388945267a50f5845a65ad36514);
+            
+        
+
+        circle_marker_bb715e866fb021863cf519a0b27c17ed.bindPopup(popup_53e96919c465d88a3a6df5a71badf0b8)
+        ;
+
+        
+    
+    
+            circle_marker_bb715e866fb021863cf519a0b27c17ed.bindTooltip(
+                `<div>
+                     Blue Belt | Air Temp: N/A °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_cd3af9dc841527d2af6a31c5848ca92d = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_fecca9c36cdc7f7d029062a5d69df66a = L.marker(
+                [40.657778, -73.760278],
+                {
+}
+            ).addTo(feature_group_cd3af9dc841527d2af6a31c5848ca92d);
+        
+    
+            var icon_8598fcfc9137c8e2c0074930599d7a87 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e19792d5cab83b3fbbc0a9cbc0f1351c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_2343cc4e60360b5e09ca7e1a23c5d2c2 = $(`<div id="html_2343cc4e60360b5e09ca7e1a23c5d2c2" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 5/30/2025<br>         <b>Time:</b> 12:30 PM<br>         <b>Water Temp:</b> 22.00 °C<br>         <b>Air Temp:</b> 19.00 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira (sp)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_e19792d5cab83b3fbbc0a9cbc0f1351c.setContent(html_2343cc4e60360b5e09ca7e1a23c5d2c2);
+            
+        
+
+        marker_fecca9c36cdc7f7d029062a5d69df66a.bindPopup(popup_e19792d5cab83b3fbbc0a9cbc0f1351c)
+        ;
+
+        
+    
+    
+            marker_fecca9c36cdc7f7d029062a5d69df66a.bindTooltip(
+                `<div>
+                     Loc 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_fecca9c36cdc7f7d029062a5d69df66a.setIcon(icon_8598fcfc9137c8e2c0074930599d7a87);
+            
+    
+            var feature_group_38cb76bc9354da1db5eea946dbb70e16 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_585ec9b6cf4f67250ffc6886d99e45c4 = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ffa500ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffa500ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_38cb76bc9354da1db5eea946dbb70e16);
+        
+    
+        var popup_12ebf1a8ca3ef1b4a47c2e63924547e4 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_a727986b09268538ffc3a00be1c1ed02 = $(`<div id="html_a727986b09268538ffc3a00be1c1ed02" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 5/30/2025<br>         <b>Time:</b> 12:30 PM<br>         <b>Water Temp:</b> 22.00 °C<br>         <b>Air Temp:</b> 19.00 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira (sp)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_12ebf1a8ca3ef1b4a47c2e63924547e4.setContent(html_a727986b09268538ffc3a00be1c1ed02);
+            
+        
+
+        circle_marker_585ec9b6cf4f67250ffc6886d99e45c4.bindPopup(popup_12ebf1a8ca3ef1b4a47c2e63924547e4)
+        ;
+
+        
+    
+    
+            circle_marker_585ec9b6cf4f67250ffc6886d99e45c4.bindTooltip(
+                `<div>
+                     Loc 1 | Salinity: 24.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_7e429871ef099e77d22065931d1a3234 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_673bd4cec389f323bb1c07d31e8fe592 = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ffb800ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffb800ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_7e429871ef099e77d22065931d1a3234);
+        
+    
+        var popup_bdd85fb2a17f2d821ff967519db2392c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_793989df6e5ff1450d9aab56248f48b4 = $(`<div id="html_793989df6e5ff1450d9aab56248f48b4" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 5/30/2025<br>         <b>Time:</b> 12:30 PM<br>         <b>Water Temp:</b> 22.00 °C<br>         <b>Air Temp:</b> 19.00 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira (sp)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_bdd85fb2a17f2d821ff967519db2392c.setContent(html_793989df6e5ff1450d9aab56248f48b4);
+            
+        
+
+        circle_marker_673bd4cec389f323bb1c07d31e8fe592.bindPopup(popup_bdd85fb2a17f2d821ff967519db2392c)
+        ;
+
+        
+    
+    
+            circle_marker_673bd4cec389f323bb1c07d31e8fe592.bindTooltip(
+                `<div>
+                     Loc 1 | Water Temp: 22.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_96f4d9926f672c0c7d8d223fd36ff217 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_1a104c97384e1ed7398b80a1300d44fc = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#fff000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fff000ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_96f4d9926f672c0c7d8d223fd36ff217);
+        
+    
+        var popup_ffc0eec50036fd29d6afec73a31edc56 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_d6fa7f72567e3bb6bc467601f4f291d7 = $(`<div id="html_d6fa7f72567e3bb6bc467601f4f291d7" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 5/30/2025<br>         <b>Time:</b> 12:30 PM<br>         <b>Water Temp:</b> 22.00 °C<br>         <b>Air Temp:</b> 19.00 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira (sp)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_ffc0eec50036fd29d6afec73a31edc56.setContent(html_d6fa7f72567e3bb6bc467601f4f291d7);
+            
+        
+
+        circle_marker_1a104c97384e1ed7398b80a1300d44fc.bindPopup(popup_ffc0eec50036fd29d6afec73a31edc56)
+        ;
+
+        
+    
+    
+            circle_marker_1a104c97384e1ed7398b80a1300d44fc.bindTooltip(
+                `<div>
+                     Loc 1 | Air Temp: 19.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_64f265ca15502602d85bb8311b2b7876 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_b4ea0fb48e89d89e54f579bf203fe829 = L.marker(
+                [40.657778, -73.760278],
+                {
+}
+            ).addTo(feature_group_64f265ca15502602d85bb8311b2b7876);
+        
+    
+            var icon_534c3ddd8097baba799e0676ada759e8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_dd837ca52c6d05695f773141e93f91b2 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_24323aaa5891a86ac8c3e10bdeaa5f4f = $(`<div id="html_24323aaa5891a86ac8c3e10bdeaa5f4f" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 6/13/2025<br>         <b>Time:</b> 4:30 PM<br>         <b>Water Temp:</b> 25.00 °C<br>         <b>Air Temp:</b> 25.50 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Dinoflagellate<br>                 <b>ID:</b> Dino<br>                 <b>Relative Abundance:</b> Elevated             </li>                          <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pleurosigma (sp)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_dd837ca52c6d05695f773141e93f91b2.setContent(html_24323aaa5891a86ac8c3e10bdeaa5f4f);
+            
+        
+
+        marker_b4ea0fb48e89d89e54f579bf203fe829.bindPopup(popup_dd837ca52c6d05695f773141e93f91b2)
+        ;
+
+        
+    
+    
+            marker_b4ea0fb48e89d89e54f579bf203fe829.bindTooltip(
+                `<div>
+                     Loc 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b4ea0fb48e89d89e54f579bf203fe829.setIcon(icon_534c3ddd8097baba799e0676ada759e8);
+            
+    
+            var feature_group_b7afe27fb54daa94fff6d400f6f6bd06 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_bcf13cb56782df31059e1e10b640d704 = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ffa500ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffa500ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_b7afe27fb54daa94fff6d400f6f6bd06);
+        
+    
+        var popup_52b8968143462ec98f655db1e65f36ae = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_339643e8b7ff0711adb654941700e058 = $(`<div id="html_339643e8b7ff0711adb654941700e058" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 6/13/2025<br>         <b>Time:</b> 4:30 PM<br>         <b>Water Temp:</b> 25.00 °C<br>         <b>Air Temp:</b> 25.50 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Dinoflagellate<br>                 <b>ID:</b> Dino<br>                 <b>Relative Abundance:</b> Elevated             </li>                          <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pleurosigma (sp)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_52b8968143462ec98f655db1e65f36ae.setContent(html_339643e8b7ff0711adb654941700e058);
+            
+        
+
+        circle_marker_bcf13cb56782df31059e1e10b640d704.bindPopup(popup_52b8968143462ec98f655db1e65f36ae)
+        ;
+
+        
+    
+    
+            circle_marker_bcf13cb56782df31059e1e10b640d704.bindTooltip(
+                `<div>
+                     Loc 1 | Salinity: 24.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_5c18119cde127e5ca399d60fe61f671b = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_854ec8b9c497670011e93fbe5afe499a = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ff7200ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff7200ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_5c18119cde127e5ca399d60fe61f671b);
+        
+    
+        var popup_68824196f18c0d9add215f3fd3e32c91 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_2e5f650a1a669d12b7aa2eee8e306297 = $(`<div id="html_2e5f650a1a669d12b7aa2eee8e306297" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 6/13/2025<br>         <b>Time:</b> 4:30 PM<br>         <b>Water Temp:</b> 25.00 °C<br>         <b>Air Temp:</b> 25.50 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Dinoflagellate<br>                 <b>ID:</b> Dino<br>                 <b>Relative Abundance:</b> Elevated             </li>                          <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pleurosigma (sp)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_68824196f18c0d9add215f3fd3e32c91.setContent(html_2e5f650a1a669d12b7aa2eee8e306297);
+            
+        
+
+        circle_marker_854ec8b9c497670011e93fbe5afe499a.bindPopup(popup_68824196f18c0d9add215f3fd3e32c91)
+        ;
+
+        
+    
+    
+            circle_marker_854ec8b9c497670011e93fbe5afe499a.bindTooltip(
+                `<div>
+                     Loc 1 | Water Temp: 25.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_cdce30b19f9c33a7a3c84514509ca2ba = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_99e8df59d9f5b4e4c89c3845ae44886f = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ff7c00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff7c00ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_cdce30b19f9c33a7a3c84514509ca2ba);
+        
+    
+        var popup_7483f11bdb2bb72e2833974331c0c22a = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_3c28bcbbb08b23e941063677881378c6 = $(`<div id="html_3c28bcbbb08b23e941063677881378c6" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 6/13/2025<br>         <b>Time:</b> 4:30 PM<br>         <b>Water Temp:</b> 25.00 °C<br>         <b>Air Temp:</b> 25.50 °C<br>         <b>Salinity:</b> 24.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Dinoflagellate<br>                 <b>ID:</b> Dino<br>                 <b>Relative Abundance:</b> Elevated             </li>                          <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pleurosigma (sp)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_7483f11bdb2bb72e2833974331c0c22a.setContent(html_3c28bcbbb08b23e941063677881378c6);
+            
+        
+
+        circle_marker_99e8df59d9f5b4e4c89c3845ae44886f.bindPopup(popup_7483f11bdb2bb72e2833974331c0c22a)
+        ;
+
+        
+    
+    
+            circle_marker_99e8df59d9f5b4e4c89c3845ae44886f.bindTooltip(
+                `<div>
+                     Loc 1 | Air Temp: 25.50 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_d996cb970521463562f5aa502d96132a = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_b355fe3ab72d4325b6b01f1b73cbfd8a = L.marker(
+                [40.6631013, -73.7606094],
+                {
+}
+            ).addTo(feature_group_d996cb970521463562f5aa502d96132a);
+        
+    
+            var icon_a3335faeafd96bbaba2434eba9214845 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e994bf58a230c26e23dfdc20ead45bcb = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_188b024006254932c2663e8c4f2096be = $(`<div id="html_188b024006254932c2663e8c4f2096be" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 3</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 12:30 PM<br>         <b>Water Temp:</b> 27.00 °C<br>         <b>Air Temp:</b> 27.70 °C<br>         <b>Salinity:</b> 14.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Navicula<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_e994bf58a230c26e23dfdc20ead45bcb.setContent(html_188b024006254932c2663e8c4f2096be);
+            
+        
+
+        marker_b355fe3ab72d4325b6b01f1b73cbfd8a.bindPopup(popup_e994bf58a230c26e23dfdc20ead45bcb)
+        ;
+
+        
+    
+    
+            marker_b355fe3ab72d4325b6b01f1b73cbfd8a.bindTooltip(
+                `<div>
+                     Loc 3
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b355fe3ab72d4325b6b01f1b73cbfd8a.setIcon(icon_a3335faeafd96bbaba2434eba9214845);
+            
+    
+            var marker_a317385fa8d594edeb0bba81ab86407e = L.marker(
+                [40.663007, -73.760762],
+                {
+}
+            ).addTo(feature_group_d996cb970521463562f5aa502d96132a);
+        
+    
+            var icon_e10a3a2cb0119fd62eeb722063eb6410 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_4cc314b0ae9c99adc177908ba32f4335 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_bf8f6d2583aaa59a24e6cbdd872932ed = $(`<div id="html_bf8f6d2583aaa59a24e6cbdd872932ed" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 4</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 12:40 PM<br>         <b>Water Temp:</b> 27.00 °C<br>         <b>Air Temp:</b> 27.70 °C<br>         <b>Salinity:</b> 15.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Cyanobacteria<br>                 <b>ID:</b> Spirulinales<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_4cc314b0ae9c99adc177908ba32f4335.setContent(html_bf8f6d2583aaa59a24e6cbdd872932ed);
+            
+        
+
+        marker_a317385fa8d594edeb0bba81ab86407e.bindPopup(popup_4cc314b0ae9c99adc177908ba32f4335)
+        ;
+
+        
+    
+    
+            marker_a317385fa8d594edeb0bba81ab86407e.bindTooltip(
+                `<div>
+                     Loc 4
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a317385fa8d594edeb0bba81ab86407e.setIcon(icon_e10a3a2cb0119fd62eeb722063eb6410);
+            
+    
+            var marker_4e2d41797a2f56dd40516a5690967d4a = L.marker(
+                [40.6604965, -73.7444951],
+                {
+}
+            ).addTo(feature_group_d996cb970521463562f5aa502d96132a);
+        
+    
+            var icon_fc62e732777744263ecaa96d3088ebcb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_379466c22db87a757170c0db2ee6a6c9 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_3386aa8c3597eae8c45a3e0d1e1da9bf = $(`<div id="html_3386aa8c3597eae8c45a3e0d1e1da9bf" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 5</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 1:15 PM<br>         <b>Water Temp:</b> N/A °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 0.00 PSU              </div>     </div>`)[0];
+                popup_379466c22db87a757170c0db2ee6a6c9.setContent(html_3386aa8c3597eae8c45a3e0d1e1da9bf);
+            
+        
+
+        marker_4e2d41797a2f56dd40516a5690967d4a.bindPopup(popup_379466c22db87a757170c0db2ee6a6c9)
+        ;
+
+        
+    
+    
+            marker_4e2d41797a2f56dd40516a5690967d4a.bindTooltip(
+                `<div>
+                     Loc 5
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4e2d41797a2f56dd40516a5690967d4a.setIcon(icon_fc62e732777744263ecaa96d3088ebcb);
+            
+    
+            var marker_4d08b552c5ac961bffcd7907d2c644cf = L.marker(
+                [40.6577882, -73.7469634],
+                {
+}
+            ).addTo(feature_group_d996cb970521463562f5aa502d96132a);
+        
+    
+            var icon_7a23e9abb86d60cfe6acbd014a7b5dc8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_97938380de7c3706faab905aaa980691 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_b341f851c9817d92548b2335dd75d957 = $(`<div id="html_b341f851c9817d92548b2335dd75d957" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 6</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 1:15 PM<br>         <b>Water Temp:</b> N/A °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 20.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira nummuloides<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_97938380de7c3706faab905aaa980691.setContent(html_b341f851c9817d92548b2335dd75d957);
+            
+        
+
+        marker_4d08b552c5ac961bffcd7907d2c644cf.bindPopup(popup_97938380de7c3706faab905aaa980691)
+        ;
+
+        
+    
+    
+            marker_4d08b552c5ac961bffcd7907d2c644cf.bindTooltip(
+                `<div>
+                     Loc 6
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4d08b552c5ac961bffcd7907d2c644cf.setIcon(icon_7a23e9abb86d60cfe6acbd014a7b5dc8);
+            
+    
+            var feature_group_916a8943965c188c5fc344b236ce8e79 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_63bdf564be2fd05a121314d9bd34b34a = L.circleMarker(
+                [40.6631013, -73.7606094],
+                {"bubblingMouseEvents": true, "color": "#55ab00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#55ab00ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_916a8943965c188c5fc344b236ce8e79);
+        
+    
+        var popup_e71f827b33b69a5f59288803080210cd = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e86b25a43061b935000b8772855c08a8 = $(`<div id="html_e86b25a43061b935000b8772855c08a8" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 3</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 12:30 PM<br>         <b>Water Temp:</b> 27.00 °C<br>         <b>Air Temp:</b> 27.70 °C<br>         <b>Salinity:</b> 14.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Navicula<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_e71f827b33b69a5f59288803080210cd.setContent(html_e86b25a43061b935000b8772855c08a8);
+            
+        
+
+        circle_marker_63bdf564be2fd05a121314d9bd34b34a.bindPopup(popup_e71f827b33b69a5f59288803080210cd)
+        ;
+
+        
+    
+    
+            circle_marker_63bdf564be2fd05a121314d9bd34b34a.bindTooltip(
+                `<div>
+                     Loc 3 | Salinity: 14.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6b1d24c24851952907be2c623955c93d = L.circleMarker(
+                [40.663007, -73.760762],
+                {"bubblingMouseEvents": true, "color": "#7fc000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7fc000ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_916a8943965c188c5fc344b236ce8e79);
+        
+    
+        var popup_b7ea0565cf57a68f3465b1a433a8d4ed = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_15412f39f1be98e1be10983434507606 = $(`<div id="html_15412f39f1be98e1be10983434507606" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 4</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 12:40 PM<br>         <b>Water Temp:</b> 27.00 °C<br>         <b>Air Temp:</b> 27.70 °C<br>         <b>Salinity:</b> 15.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Cyanobacteria<br>                 <b>ID:</b> Spirulinales<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_b7ea0565cf57a68f3465b1a433a8d4ed.setContent(html_15412f39f1be98e1be10983434507606);
+            
+        
+
+        circle_marker_6b1d24c24851952907be2c623955c93d.bindPopup(popup_b7ea0565cf57a68f3465b1a433a8d4ed)
+        ;
+
+        
+    
+    
+            circle_marker_6b1d24c24851952907be2c623955c93d.bindTooltip(
+                `<div>
+                     Loc 4 | Salinity: 15.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_073c0fce837eaf26e3d460ab890dd298 = L.circleMarker(
+                [40.6604965, -73.7444951],
+                {"bubblingMouseEvents": true, "color": "#0000ffff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#0000ffff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_916a8943965c188c5fc344b236ce8e79);
+        
+    
+        var popup_561f838ecb14c2123794c2bee7fbcc3d = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_0944d4063bb69048112550cd294da37b = $(`<div id="html_0944d4063bb69048112550cd294da37b" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 5</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 1:15 PM<br>         <b>Water Temp:</b> N/A °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 0.00 PSU              </div>     </div>`)[0];
+                popup_561f838ecb14c2123794c2bee7fbcc3d.setContent(html_0944d4063bb69048112550cd294da37b);
+            
+        
+
+        circle_marker_073c0fce837eaf26e3d460ab890dd298.bindPopup(popup_561f838ecb14c2123794c2bee7fbcc3d)
+        ;
+
+        
+    
+    
+            circle_marker_073c0fce837eaf26e3d460ab890dd298.bindTooltip(
+                `<div>
+                     Loc 5 | Salinity: 0.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9fcc07f49d060d2a0c3ed01f98422570 = L.circleMarker(
+                [40.6577882, -73.7469634],
+                {"bubblingMouseEvents": true, "color": "#ffe100ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe100ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_916a8943965c188c5fc344b236ce8e79);
+        
+    
+        var popup_e6d34510872611aae9b3e13b286746e7 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_0f9075a04e33c021462fa34122fa933d = $(`<div id="html_0f9075a04e33c021462fa34122fa933d" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 6</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 1:15 PM<br>         <b>Water Temp:</b> N/A °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 20.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira nummuloides<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_e6d34510872611aae9b3e13b286746e7.setContent(html_0f9075a04e33c021462fa34122fa933d);
+            
+        
+
+        circle_marker_9fcc07f49d060d2a0c3ed01f98422570.bindPopup(popup_e6d34510872611aae9b3e13b286746e7)
+        ;
+
+        
+    
+    
+            circle_marker_9fcc07f49d060d2a0c3ed01f98422570.bindTooltip(
+                `<div>
+                     Loc 6 | Salinity: 20.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_b20c8cf2e54b6e3c9c8b0e2da93bce90 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_60534120904c15d8ea1d8a990ef0dc45 = L.circleMarker(
+                [40.6631013, -73.7606094],
+                {"bubblingMouseEvents": true, "color": "#ff3900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff3900ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_b20c8cf2e54b6e3c9c8b0e2da93bce90);
+        
+    
+        var popup_8d5e2ba6b177d572fb9a111af5608433 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_40b858bd62f11c8de7f85bbc3accd964 = $(`<div id="html_40b858bd62f11c8de7f85bbc3accd964" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 3</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 12:30 PM<br>         <b>Water Temp:</b> 27.00 °C<br>         <b>Air Temp:</b> 27.70 °C<br>         <b>Salinity:</b> 14.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Navicula<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_8d5e2ba6b177d572fb9a111af5608433.setContent(html_40b858bd62f11c8de7f85bbc3accd964);
+            
+        
+
+        circle_marker_60534120904c15d8ea1d8a990ef0dc45.bindPopup(popup_8d5e2ba6b177d572fb9a111af5608433)
+        ;
+
+        
+    
+    
+            circle_marker_60534120904c15d8ea1d8a990ef0dc45.bindTooltip(
+                `<div>
+                     Loc 3 | Water Temp: 27.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_90ab7d9af112487a3c432f8005845e72 = L.circleMarker(
+                [40.663007, -73.760762],
+                {"bubblingMouseEvents": true, "color": "#ff3900ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff3900ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_b20c8cf2e54b6e3c9c8b0e2da93bce90);
+        
+    
+        var popup_f3c2e5bfaa216e980b5e53452a406264 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_52de02d8d43ccb3a70aafb5d6abb2f65 = $(`<div id="html_52de02d8d43ccb3a70aafb5d6abb2f65" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 4</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 12:40 PM<br>         <b>Water Temp:</b> 27.00 °C<br>         <b>Air Temp:</b> 27.70 °C<br>         <b>Salinity:</b> 15.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Cyanobacteria<br>                 <b>ID:</b> Spirulinales<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_f3c2e5bfaa216e980b5e53452a406264.setContent(html_52de02d8d43ccb3a70aafb5d6abb2f65);
+            
+        
+
+        circle_marker_90ab7d9af112487a3c432f8005845e72.bindPopup(popup_f3c2e5bfaa216e980b5e53452a406264)
+        ;
+
+        
+    
+    
+            circle_marker_90ab7d9af112487a3c432f8005845e72.bindTooltip(
+                `<div>
+                     Loc 4 | Water Temp: 27.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_519b36a1388a2ff4e5ce0641ee3e41a6 = L.circleMarker(
+                [40.6604965, -73.7444951],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_b20c8cf2e54b6e3c9c8b0e2da93bce90);
+        
+    
+        var popup_e4d0de1e2b6a6aef1aa8766a85eeab8a = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_dcb6be116022293d0eb2d65f8d8b7177 = $(`<div id="html_dcb6be116022293d0eb2d65f8d8b7177" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 5</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 1:15 PM<br>         <b>Water Temp:</b> N/A °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 0.00 PSU              </div>     </div>`)[0];
+                popup_e4d0de1e2b6a6aef1aa8766a85eeab8a.setContent(html_dcb6be116022293d0eb2d65f8d8b7177);
+            
+        
+
+        circle_marker_519b36a1388a2ff4e5ce0641ee3e41a6.bindPopup(popup_e4d0de1e2b6a6aef1aa8766a85eeab8a)
+        ;
+
+        
+    
+    
+            circle_marker_519b36a1388a2ff4e5ce0641ee3e41a6.bindTooltip(
+                `<div>
+                     Loc 5 | Water Temp: N/A °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7f1435fc35099bdafeefe09c9478e28a = L.circleMarker(
+                [40.6577882, -73.7469634],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_b20c8cf2e54b6e3c9c8b0e2da93bce90);
+        
+    
+        var popup_aa3540760b3068cdec201a2d4923a472 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_3e379c5f2b2477f17f042917c81dcc6c = $(`<div id="html_3e379c5f2b2477f17f042917c81dcc6c" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 6</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 1:15 PM<br>         <b>Water Temp:</b> N/A °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 20.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira nummuloides<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_aa3540760b3068cdec201a2d4923a472.setContent(html_3e379c5f2b2477f17f042917c81dcc6c);
+            
+        
+
+        circle_marker_7f1435fc35099bdafeefe09c9478e28a.bindPopup(popup_aa3540760b3068cdec201a2d4923a472)
+        ;
+
+        
+    
+    
+            circle_marker_7f1435fc35099bdafeefe09c9478e28a.bindTooltip(
+                `<div>
+                     Loc 6 | Water Temp: N/A °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_d37d8f215b6306e6ba5cdb785df0d17e = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_054b9ad92e51ac9a6f40495b8191f69e = L.circleMarker(
+                [40.6631013, -73.7606094],
+                {"bubblingMouseEvents": true, "color": "#ff3f00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff3f00ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_d37d8f215b6306e6ba5cdb785df0d17e);
+        
+    
+        var popup_6acac58932591d3e0f5e3435f9228d86 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e2d688c08cfb9f1508fc55d65ce3e4ea = $(`<div id="html_e2d688c08cfb9f1508fc55d65ce3e4ea" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 3</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 12:30 PM<br>         <b>Water Temp:</b> 27.00 °C<br>         <b>Air Temp:</b> 27.70 °C<br>         <b>Salinity:</b> 14.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Navicula<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_6acac58932591d3e0f5e3435f9228d86.setContent(html_e2d688c08cfb9f1508fc55d65ce3e4ea);
+            
+        
+
+        circle_marker_054b9ad92e51ac9a6f40495b8191f69e.bindPopup(popup_6acac58932591d3e0f5e3435f9228d86)
+        ;
+
+        
+    
+    
+            circle_marker_054b9ad92e51ac9a6f40495b8191f69e.bindTooltip(
+                `<div>
+                     Loc 3 | Air Temp: 27.70 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_66b9b6b74eab8c260b99f7e3e555d6b9 = L.circleMarker(
+                [40.663007, -73.760762],
+                {"bubblingMouseEvents": true, "color": "#ff3f00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff3f00ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_d37d8f215b6306e6ba5cdb785df0d17e);
+        
+    
+        var popup_ac9a6c4e62f20e92045a5cc51be22146 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_2488aa6bd403bb6adf619b6d1fc90c45 = $(`<div id="html_2488aa6bd403bb6adf619b6d1fc90c45" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 4</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 12:40 PM<br>         <b>Water Temp:</b> 27.00 °C<br>         <b>Air Temp:</b> 27.70 °C<br>         <b>Salinity:</b> 15.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Cyanobacteria<br>                 <b>ID:</b> Spirulinales<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_ac9a6c4e62f20e92045a5cc51be22146.setContent(html_2488aa6bd403bb6adf619b6d1fc90c45);
+            
+        
+
+        circle_marker_66b9b6b74eab8c260b99f7e3e555d6b9.bindPopup(popup_ac9a6c4e62f20e92045a5cc51be22146)
+        ;
+
+        
+    
+    
+            circle_marker_66b9b6b74eab8c260b99f7e3e555d6b9.bindTooltip(
+                `<div>
+                     Loc 4 | Air Temp: 27.70 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_dcb93117e701450f4c5287e74a8bf238 = L.circleMarker(
+                [40.6604965, -73.7444951],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_d37d8f215b6306e6ba5cdb785df0d17e);
+        
+    
+        var popup_8159e54f1cd5ea7fe1408d0d30f5ec8a = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e5f930b703d08810b0a117ac4ce02904 = $(`<div id="html_e5f930b703d08810b0a117ac4ce02904" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 5</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 1:15 PM<br>         <b>Water Temp:</b> N/A °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 0.00 PSU              </div>     </div>`)[0];
+                popup_8159e54f1cd5ea7fe1408d0d30f5ec8a.setContent(html_e5f930b703d08810b0a117ac4ce02904);
+            
+        
+
+        circle_marker_dcb93117e701450f4c5287e74a8bf238.bindPopup(popup_8159e54f1cd5ea7fe1408d0d30f5ec8a)
+        ;
+
+        
+    
+    
+            circle_marker_dcb93117e701450f4c5287e74a8bf238.bindTooltip(
+                `<div>
+                     Loc 5 | Air Temp: N/A °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_11a2021ccbcd2e1641d4b1d6115999fa = L.circleMarker(
+                [40.6577882, -73.7469634],
+                {"bubblingMouseEvents": true, "color": "gray", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "gray", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_d37d8f215b6306e6ba5cdb785df0d17e);
+        
+    
+        var popup_474be0c8a0ce6045fa9ba84d8a56243c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_bcc672d3ae0e598bceeaf132fa2812d1 = $(`<div id="html_bcc672d3ae0e598bceeaf132fa2812d1" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 6</h4>         <b>Date:</b> 7/19/2025<br>         <b>Time:</b> 1:15 PM<br>         <b>Water Temp:</b> N/A °C<br>         <b>Air Temp:</b> N/A °C<br>         <b>Salinity:</b> 20.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira nummuloides<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_474be0c8a0ce6045fa9ba84d8a56243c.setContent(html_bcc672d3ae0e598bceeaf132fa2812d1);
+            
+        
+
+        circle_marker_11a2021ccbcd2e1641d4b1d6115999fa.bindPopup(popup_474be0c8a0ce6045fa9ba84d8a56243c)
+        ;
+
+        
+    
+    
+            circle_marker_11a2021ccbcd2e1641d4b1d6115999fa.bindTooltip(
+                `<div>
+                     Loc 6 | Air Temp: N/A °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_d9e856ddfbcc0a33a07304ba9a035b21 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_5eeaa181ea8ce9bb88f3e36ea2319866 = L.marker(
+                [40.657778, -73.760278],
+                {
+}
+            ).addTo(feature_group_d9e856ddfbcc0a33a07304ba9a035b21);
+        
+    
+            var icon_27db96cb177581f9e3333ef55efa3cb2 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a7facb6fbab13da5fb2f69d9c75f0fc2 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_a700f10b68fceea1235cf79c2d64dfad = $(`<div id="html_a700f10b68fceea1235cf79c2d64dfad" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 7/7/2025<br>         <b>Time:</b> 9:50 AM<br>         <b>Water Temp:</b> 26.00 °C<br>         <b>Air Temp:</b> 26.10 °C<br>         <b>Salinity:</b> 20.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Naviculales (order)<br>                 <b>Relative Abundance:</b> Elevated             </li>                          <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira (genus)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_a7facb6fbab13da5fb2f69d9c75f0fc2.setContent(html_a700f10b68fceea1235cf79c2d64dfad);
+            
+        
+
+        marker_5eeaa181ea8ce9bb88f3e36ea2319866.bindPopup(popup_a7facb6fbab13da5fb2f69d9c75f0fc2)
+        ;
+
+        
+    
+    
+            marker_5eeaa181ea8ce9bb88f3e36ea2319866.bindTooltip(
+                `<div>
+                     Loc 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_5eeaa181ea8ce9bb88f3e36ea2319866.setIcon(icon_27db96cb177581f9e3333ef55efa3cb2);
+            
+    
+            var marker_e77982d3e47fe21eefb4bb27355e7be9 = L.marker(
+                [40.6578574, -73.7609742],
+                {
+}
+            ).addTo(feature_group_d9e856ddfbcc0a33a07304ba9a035b21);
+        
+    
+            var icon_747c36280dfafbbf9bd1ec5f9602cdfe = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_87d6c6720c90e26c19cd422b98bd7788 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_b845f11ee743c230b15e1121f98e8571 = $(`<div id="html_b845f11ee743c230b15e1121f98e8571" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 2</h4>         <b>Date:</b> 7/7/2025<br>         <b>Time:</b> 12:45 PM<br>         <b>Water Temp:</b> 29.00 °C<br>         <b>Air Temp:</b> 30.00 °C<br>         <b>Salinity:</b> 17.50 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira moniliformis sp<br>                 <b>Relative Abundance:</b> Elevated             </li>                          <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Naviculus (Genus) Nv. (order)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_87d6c6720c90e26c19cd422b98bd7788.setContent(html_b845f11ee743c230b15e1121f98e8571);
+            
+        
+
+        marker_e77982d3e47fe21eefb4bb27355e7be9.bindPopup(popup_87d6c6720c90e26c19cd422b98bd7788)
+        ;
+
+        
+    
+    
+            marker_e77982d3e47fe21eefb4bb27355e7be9.bindTooltip(
+                `<div>
+                     Loc 2
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e77982d3e47fe21eefb4bb27355e7be9.setIcon(icon_747c36280dfafbbf9bd1ec5f9602cdfe);
+            
+    
+            var feature_group_13bac5c438712a996b6192f114a22e2b = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_916f9b511d5adfe4a1d570105d57a25c = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ffe100ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffe100ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_13bac5c438712a996b6192f114a22e2b);
+        
+    
+        var popup_c47d9beb6cb13db293a0adaa082d61b7 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_5cdbf8b57e7f18db0fcb201e2c915a7c = $(`<div id="html_5cdbf8b57e7f18db0fcb201e2c915a7c" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 7/7/2025<br>         <b>Time:</b> 9:50 AM<br>         <b>Water Temp:</b> 26.00 °C<br>         <b>Air Temp:</b> 26.10 °C<br>         <b>Salinity:</b> 20.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Naviculales (order)<br>                 <b>Relative Abundance:</b> Elevated             </li>                          <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira (genus)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_c47d9beb6cb13db293a0adaa082d61b7.setContent(html_5cdbf8b57e7f18db0fcb201e2c915a7c);
+            
+        
+
+        circle_marker_916f9b511d5adfe4a1d570105d57a25c.bindPopup(popup_c47d9beb6cb13db293a0adaa082d61b7)
+        ;
+
+        
+    
+    
+            circle_marker_916f9b511d5adfe4a1d570105d57a25c.bindTooltip(
+                `<div>
+                     Loc 1 | Salinity: 20.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0bdb783b5e6b776706187c23e79d4d1d = L.circleMarker(
+                [40.6578574, -73.7609742],
+                {"bubblingMouseEvents": true, "color": "#eaf500ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#eaf500ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_13bac5c438712a996b6192f114a22e2b);
+        
+    
+        var popup_5f043ea0c2a9b617065e71b8fa190008 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_5b36d59dd43882284642718ded17b88c = $(`<div id="html_5b36d59dd43882284642718ded17b88c" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 2</h4>         <b>Date:</b> 7/7/2025<br>         <b>Time:</b> 12:45 PM<br>         <b>Water Temp:</b> 29.00 °C<br>         <b>Air Temp:</b> 30.00 °C<br>         <b>Salinity:</b> 17.50 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira moniliformis sp<br>                 <b>Relative Abundance:</b> Elevated             </li>                          <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Naviculus (Genus) Nv. (order)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_5f043ea0c2a9b617065e71b8fa190008.setContent(html_5b36d59dd43882284642718ded17b88c);
+            
+        
+
+        circle_marker_0bdb783b5e6b776706187c23e79d4d1d.bindPopup(popup_5f043ea0c2a9b617065e71b8fa190008)
+        ;
+
+        
+    
+    
+            circle_marker_0bdb783b5e6b776706187c23e79d4d1d.bindTooltip(
+                `<div>
+                     Loc 2 | Salinity: 17.50 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_14a117d5a97c6c0e68da305e55cc0ec4 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_477e2a87436cf6bf73f69c10180f6fac = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ff5500ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff5500ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_14a117d5a97c6c0e68da305e55cc0ec4);
+        
+    
+        var popup_7594918ee788ec96cb7f36bd129c9c4d = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_1d83ebbb6865d61fb6f1c4a78ba506cc = $(`<div id="html_1d83ebbb6865d61fb6f1c4a78ba506cc" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 7/7/2025<br>         <b>Time:</b> 9:50 AM<br>         <b>Water Temp:</b> 26.00 °C<br>         <b>Air Temp:</b> 26.10 °C<br>         <b>Salinity:</b> 20.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Naviculales (order)<br>                 <b>Relative Abundance:</b> Elevated             </li>                          <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira (genus)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_7594918ee788ec96cb7f36bd129c9c4d.setContent(html_1d83ebbb6865d61fb6f1c4a78ba506cc);
+            
+        
+
+        circle_marker_477e2a87436cf6bf73f69c10180f6fac.bindPopup(popup_7594918ee788ec96cb7f36bd129c9c4d)
+        ;
+
+        
+    
+    
+            circle_marker_477e2a87436cf6bf73f69c10180f6fac.bindTooltip(
+                `<div>
+                     Loc 1 | Water Temp: 26.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3b55dff2f180211e38ba4909db6cf6e5 = L.circleMarker(
+                [40.6578574, -73.7609742],
+                {"bubblingMouseEvents": true, "color": "#ff0000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff0000ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_14a117d5a97c6c0e68da305e55cc0ec4);
+        
+    
+        var popup_066560e9e229258c1af69f7539fc7822 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_bf17146606b93c64a6cd102687fea078 = $(`<div id="html_bf17146606b93c64a6cd102687fea078" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 2</h4>         <b>Date:</b> 7/7/2025<br>         <b>Time:</b> 12:45 PM<br>         <b>Water Temp:</b> 29.00 °C<br>         <b>Air Temp:</b> 30.00 °C<br>         <b>Salinity:</b> 17.50 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira moniliformis sp<br>                 <b>Relative Abundance:</b> Elevated             </li>                          <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Naviculus (Genus) Nv. (order)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_066560e9e229258c1af69f7539fc7822.setContent(html_bf17146606b93c64a6cd102687fea078);
+            
+        
+
+        circle_marker_3b55dff2f180211e38ba4909db6cf6e5.bindPopup(popup_066560e9e229258c1af69f7539fc7822)
+        ;
+
+        
+    
+    
+            circle_marker_3b55dff2f180211e38ba4909db6cf6e5.bindTooltip(
+                `<div>
+                     Loc 2 | Water Temp: 29.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_37c19dca13aff6f26dee2d14cd3e591c = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_50933a935c99a99f1d26eeeaad19f479 = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ff6b00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6b00ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_37c19dca13aff6f26dee2d14cd3e591c);
+        
+    
+        var popup_824fb956c1d4551a562a47e61b540e0e = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_f94407837ab9881188e2a732bc75c37f = $(`<div id="html_f94407837ab9881188e2a732bc75c37f" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 7/7/2025<br>         <b>Time:</b> 9:50 AM<br>         <b>Water Temp:</b> 26.00 °C<br>         <b>Air Temp:</b> 26.10 °C<br>         <b>Salinity:</b> 20.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Naviculales (order)<br>                 <b>Relative Abundance:</b> Elevated             </li>                          <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira (genus)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_824fb956c1d4551a562a47e61b540e0e.setContent(html_f94407837ab9881188e2a732bc75c37f);
+            
+        
+
+        circle_marker_50933a935c99a99f1d26eeeaad19f479.bindPopup(popup_824fb956c1d4551a562a47e61b540e0e)
+        ;
+
+        
+    
+    
+            circle_marker_50933a935c99a99f1d26eeeaad19f479.bindTooltip(
+                `<div>
+                     Loc 1 | Air Temp: 26.10 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_134b5f316fbbccdb9d21c8b232774f10 = L.circleMarker(
+                [40.6578574, -73.7609742],
+                {"bubblingMouseEvents": true, "color": "#ff0000ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff0000ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_37c19dca13aff6f26dee2d14cd3e591c);
+        
+    
+        var popup_87fe63ce673e439848bccac464ad8f8c = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_8b798031dc3e05ef8be7499d3ce439bb = $(`<div id="html_8b798031dc3e05ef8be7499d3ce439bb" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 2</h4>         <b>Date:</b> 7/7/2025<br>         <b>Time:</b> 12:45 PM<br>         <b>Water Temp:</b> 29.00 °C<br>         <b>Air Temp:</b> 30.00 °C<br>         <b>Salinity:</b> 17.50 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Melosira moniliformis sp<br>                 <b>Relative Abundance:</b> Elevated             </li>                          <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Naviculus (Genus) Nv. (order)<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_87fe63ce673e439848bccac464ad8f8c.setContent(html_8b798031dc3e05ef8be7499d3ce439bb);
+            
+        
+
+        circle_marker_134b5f316fbbccdb9d21c8b232774f10.bindPopup(popup_87fe63ce673e439848bccac464ad8f8c)
+        ;
+
+        
+    
+    
+            circle_marker_134b5f316fbbccdb9d21c8b232774f10.bindTooltip(
+                `<div>
+                     Loc 2 | Air Temp: 30.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_5b092ead415d8404b2102f9bae96ca82 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_4a401285b9d48ea0476e14d3edab11e6 = L.marker(
+                [40.659358, -73.761964],
+                {
+}
+            ).addTo(feature_group_5b092ead415d8404b2102f9bae96ca82);
+        
+    
+            var icon_fba8749a0e8999d6ba8091a1568c7d15 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b393bfa16994bbbb52c078e534e3ba30 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_018582f1b9c462dcbbb1529c246fdf95 = $(`<div id="html_018582f1b9c462dcbbb1529c246fdf95" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Blue Belt</h4>         <b>Date:</b> 8/16/2025<br>         <b>Time:</b> 9:35 AM<br>         <b>Water Temp:</b> 24.00 °C<br>         <b>Air Temp:</b> 25.56 °C<br>         <b>Salinity:</b> 21.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Nitzschia A.H. Hassall, 1845<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_b393bfa16994bbbb52c078e534e3ba30.setContent(html_018582f1b9c462dcbbb1529c246fdf95);
+            
+        
+
+        marker_4a401285b9d48ea0476e14d3edab11e6.bindPopup(popup_b393bfa16994bbbb52c078e534e3ba30)
+        ;
+
+        
+    
+    
+            marker_4a401285b9d48ea0476e14d3edab11e6.bindTooltip(
+                `<div>
+                     Blue Belt
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4a401285b9d48ea0476e14d3edab11e6.setIcon(icon_fba8749a0e8999d6ba8091a1568c7d15);
+            
+    
+            var feature_group_8e915bab0e22ab4155cce1d3b0d93bed = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_314bad593d563fbbaf85e46e5b74e62b = L.circleMarker(
+                [40.659358, -73.761964],
+                {"bubblingMouseEvents": true, "color": "#ffd200ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ffd200ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_8e915bab0e22ab4155cce1d3b0d93bed);
+        
+    
+        var popup_375e00d6a0a72049bd3b7d1ad550b57a = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_8a07a905d29f4638ed00ac8e4db67942 = $(`<div id="html_8a07a905d29f4638ed00ac8e4db67942" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Blue Belt</h4>         <b>Date:</b> 8/16/2025<br>         <b>Time:</b> 9:35 AM<br>         <b>Water Temp:</b> 24.00 °C<br>         <b>Air Temp:</b> 25.56 °C<br>         <b>Salinity:</b> 21.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Nitzschia A.H. Hassall, 1845<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_375e00d6a0a72049bd3b7d1ad550b57a.setContent(html_8a07a905d29f4638ed00ac8e4db67942);
+            
+        
+
+        circle_marker_314bad593d563fbbaf85e46e5b74e62b.bindPopup(popup_375e00d6a0a72049bd3b7d1ad550b57a)
+        ;
+
+        
+    
+    
+            circle_marker_314bad593d563fbbaf85e46e5b74e62b.bindTooltip(
+                `<div>
+                     Blue Belt | Salinity: 21.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_b946c438a92481ca9245e1385427a5e5 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_19cf88950e52cebb7fd53947ce1b4bf1 = L.circleMarker(
+                [40.659358, -73.761964],
+                {"bubblingMouseEvents": true, "color": "#ff8e00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff8e00ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_b946c438a92481ca9245e1385427a5e5);
+        
+    
+        var popup_b91e798badaca844e7097973f7d2715e = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_3d337d2ab0bede5ae2a34f6b40f69538 = $(`<div id="html_3d337d2ab0bede5ae2a34f6b40f69538" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Blue Belt</h4>         <b>Date:</b> 8/16/2025<br>         <b>Time:</b> 9:35 AM<br>         <b>Water Temp:</b> 24.00 °C<br>         <b>Air Temp:</b> 25.56 °C<br>         <b>Salinity:</b> 21.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Nitzschia A.H. Hassall, 1845<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_b91e798badaca844e7097973f7d2715e.setContent(html_3d337d2ab0bede5ae2a34f6b40f69538);
+            
+        
+
+        circle_marker_19cf88950e52cebb7fd53947ce1b4bf1.bindPopup(popup_b91e798badaca844e7097973f7d2715e)
+        ;
+
+        
+    
+    
+            circle_marker_19cf88950e52cebb7fd53947ce1b4bf1.bindTooltip(
+                `<div>
+                     Blue Belt | Water Temp: 24.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_4c04cf24e19cf970ab79f85cdd07057b = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_25c7cc50029a7b6586130eeb49402b2b = L.circleMarker(
+                [40.659358, -73.761964],
+                {"bubblingMouseEvents": true, "color": "#ff7a00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff7a00ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_4c04cf24e19cf970ab79f85cdd07057b);
+        
+    
+        var popup_00d5d7127c3c1912d1ef9440e6d35bf0 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_d0dd30a399b56b9541709e94edf2353d = $(`<div id="html_d0dd30a399b56b9541709e94edf2353d" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Blue Belt</h4>         <b>Date:</b> 8/16/2025<br>         <b>Time:</b> 9:35 AM<br>         <b>Water Temp:</b> 24.00 °C<br>         <b>Air Temp:</b> 25.56 °C<br>         <b>Salinity:</b> 21.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Nitzschia A.H. Hassall, 1845<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_00d5d7127c3c1912d1ef9440e6d35bf0.setContent(html_d0dd30a399b56b9541709e94edf2353d);
+            
+        
+
+        circle_marker_25c7cc50029a7b6586130eeb49402b2b.bindPopup(popup_00d5d7127c3c1912d1ef9440e6d35bf0)
+        ;
+
+        
+    
+    
+            circle_marker_25c7cc50029a7b6586130eeb49402b2b.bindTooltip(
+                `<div>
+                     Blue Belt | Air Temp: 25.56 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_e9d8e68760785bb839722a983743582f = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_8c235eed19a082582d770549db396f88 = L.marker(
+                [40.657778, -73.760278],
+                {
+}
+            ).addTo(feature_group_e9d8e68760785bb839722a983743582f);
+        
+    
+            var icon_27bd947b686ebae7b71803065d452651 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_32289adb0615dacd35b61f0d3a914db5 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_d78a9ce97625b75bdae77602c0c3cd2a = $(`<div id="html_d78a9ce97625b75bdae77602c0c3cd2a" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 9/6/2025<br>         <b>Time:</b> 9:35 AM<br>         <b>Water Temp:</b> 25.00 °C<br>         <b>Air Temp:</b> 26.00 °C<br>         <b>Salinity:</b> 25.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pennate Diatoms<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_32289adb0615dacd35b61f0d3a914db5.setContent(html_d78a9ce97625b75bdae77602c0c3cd2a);
+            
+        
+
+        marker_8c235eed19a082582d770549db396f88.bindPopup(popup_32289adb0615dacd35b61f0d3a914db5)
+        ;
+
+        
+    
+    
+            marker_8c235eed19a082582d770549db396f88.bindTooltip(
+                `<div>
+                     Loc 1
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8c235eed19a082582d770549db396f88.setIcon(icon_27bd947b686ebae7b71803065d452651);
+            
+    
+            var marker_be539f8f39c1f60797605970991f8bb7 = L.marker(
+                [40.65423, -73.757359],
+                {
+}
+            ).addTo(feature_group_e9d8e68760785bb839722a983743582f);
+        
+    
+            var icon_6213a3af0f475af8dda5b01dae77192d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_454fbde9db2e1eee68f9ea00c1acd993 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_3dad9026563c2d49443c868555343539 = $(`<div id="html_3dad9026563c2d49443c868555343539" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Trail - Salt Marsh</h4>         <b>Date:</b> 9/6/2025<br>         <b>Time:</b> 10:00 AM<br>         <b>Water Temp:</b> 25.00 °C<br>         <b>Air Temp:</b> 26.10 °C<br>         <b>Salinity:</b> 26.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pennate diatoms<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_454fbde9db2e1eee68f9ea00c1acd993.setContent(html_3dad9026563c2d49443c868555343539);
+            
+        
+
+        marker_be539f8f39c1f60797605970991f8bb7.bindPopup(popup_454fbde9db2e1eee68f9ea00c1acd993)
+        ;
+
+        
+    
+    
+            marker_be539f8f39c1f60797605970991f8bb7.bindTooltip(
+                `<div>
+                     Trail - Salt Marsh
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_be539f8f39c1f60797605970991f8bb7.setIcon(icon_6213a3af0f475af8dda5b01dae77192d);
+            
+    
+            var feature_group_039ee4120dfad5f2a85ffa83dbb890da = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_e0984b79f16fbdb18c8f480cc196a472 = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ff8a00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff8a00ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_039ee4120dfad5f2a85ffa83dbb890da);
+        
+    
+        var popup_6807c5e22bb6a00fe6ca170cbfbb7eac = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_88f7409d7ddb6f40a78fb479fd51e425 = $(`<div id="html_88f7409d7ddb6f40a78fb479fd51e425" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 9/6/2025<br>         <b>Time:</b> 9:35 AM<br>         <b>Water Temp:</b> 25.00 °C<br>         <b>Air Temp:</b> 26.00 °C<br>         <b>Salinity:</b> 25.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pennate Diatoms<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_6807c5e22bb6a00fe6ca170cbfbb7eac.setContent(html_88f7409d7ddb6f40a78fb479fd51e425);
+            
+        
+
+        circle_marker_e0984b79f16fbdb18c8f480cc196a472.bindPopup(popup_6807c5e22bb6a00fe6ca170cbfbb7eac)
+        ;
+
+        
+    
+    
+            circle_marker_e0984b79f16fbdb18c8f480cc196a472.bindTooltip(
+                `<div>
+                     Loc 1 | Salinity: 25.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_74f18bcc5547c804e9ec48f4170c10f3 = L.circleMarker(
+                [40.65423, -73.757359],
+                {"bubblingMouseEvents": true, "color": "#ff6e00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6e00ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_039ee4120dfad5f2a85ffa83dbb890da);
+        
+    
+        var popup_f152610187689defb41059ae8b44b352 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_21f6f55c5cf1e925e65417810dddac66 = $(`<div id="html_21f6f55c5cf1e925e65417810dddac66" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Trail - Salt Marsh</h4>         <b>Date:</b> 9/6/2025<br>         <b>Time:</b> 10:00 AM<br>         <b>Water Temp:</b> 25.00 °C<br>         <b>Air Temp:</b> 26.10 °C<br>         <b>Salinity:</b> 26.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pennate diatoms<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_f152610187689defb41059ae8b44b352.setContent(html_21f6f55c5cf1e925e65417810dddac66);
+            
+        
+
+        circle_marker_74f18bcc5547c804e9ec48f4170c10f3.bindPopup(popup_f152610187689defb41059ae8b44b352)
+        ;
+
+        
+    
+    
+            circle_marker_74f18bcc5547c804e9ec48f4170c10f3.bindTooltip(
+                `<div>
+                     Trail - Salt Marsh | Salinity: 26.00 PSU
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_f4343af1f779859c0a69741d3f5d22bd = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_ed225a3772e0a8a40c4c144d909603fa = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ff7200ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff7200ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_f4343af1f779859c0a69741d3f5d22bd);
+        
+    
+        var popup_abae7875b9e4f9960c1c7ab5549191e2 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_e7a402802869a2e0d8b9b6c8ba38ceaf = $(`<div id="html_e7a402802869a2e0d8b9b6c8ba38ceaf" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 9/6/2025<br>         <b>Time:</b> 9:35 AM<br>         <b>Water Temp:</b> 25.00 °C<br>         <b>Air Temp:</b> 26.00 °C<br>         <b>Salinity:</b> 25.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pennate Diatoms<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_abae7875b9e4f9960c1c7ab5549191e2.setContent(html_e7a402802869a2e0d8b9b6c8ba38ceaf);
+            
+        
+
+        circle_marker_ed225a3772e0a8a40c4c144d909603fa.bindPopup(popup_abae7875b9e4f9960c1c7ab5549191e2)
+        ;
+
+        
+    
+    
+            circle_marker_ed225a3772e0a8a40c4c144d909603fa.bindTooltip(
+                `<div>
+                     Loc 1 | Water Temp: 25.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0dc8d26ac98d48cd50fa9fb69072e7cc = L.circleMarker(
+                [40.65423, -73.757359],
+                {"bubblingMouseEvents": true, "color": "#ff7200ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff7200ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_f4343af1f779859c0a69741d3f5d22bd);
+        
+    
+        var popup_79d66c31dc6751093f3a20b25aeb70c0 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_8b9d60827625d54a4cbe4d092839701e = $(`<div id="html_8b9d60827625d54a4cbe4d092839701e" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Trail - Salt Marsh</h4>         <b>Date:</b> 9/6/2025<br>         <b>Time:</b> 10:00 AM<br>         <b>Water Temp:</b> 25.00 °C<br>         <b>Air Temp:</b> 26.10 °C<br>         <b>Salinity:</b> 26.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pennate diatoms<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_79d66c31dc6751093f3a20b25aeb70c0.setContent(html_8b9d60827625d54a4cbe4d092839701e);
+            
+        
+
+        circle_marker_0dc8d26ac98d48cd50fa9fb69072e7cc.bindPopup(popup_79d66c31dc6751093f3a20b25aeb70c0)
+        ;
+
+        
+    
+    
+            circle_marker_0dc8d26ac98d48cd50fa9fb69072e7cc.bindTooltip(
+                `<div>
+                     Trail - Salt Marsh | Water Temp: 25.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var feature_group_277d9c38fe87082871e6a1861ddff327 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_5ca7acca454a1162056d8c79e0c647db = L.circleMarker(
+                [40.657778, -73.760278],
+                {"bubblingMouseEvents": true, "color": "#ff6e00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6e00ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_277d9c38fe87082871e6a1861ddff327);
+        
+    
+        var popup_f144db6f812d3d6b758e305f10cf4603 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_d21bc2fc82de32d0891baca400433ae4 = $(`<div id="html_d21bc2fc82de32d0891baca400433ae4" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Loc 1</h4>         <b>Date:</b> 9/6/2025<br>         <b>Time:</b> 9:35 AM<br>         <b>Water Temp:</b> 25.00 °C<br>         <b>Air Temp:</b> 26.00 °C<br>         <b>Salinity:</b> 25.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pennate Diatoms<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_f144db6f812d3d6b758e305f10cf4603.setContent(html_d21bc2fc82de32d0891baca400433ae4);
+            
+        
+
+        circle_marker_5ca7acca454a1162056d8c79e0c647db.bindPopup(popup_f144db6f812d3d6b758e305f10cf4603)
+        ;
+
+        
+    
+    
+            circle_marker_5ca7acca454a1162056d8c79e0c647db.bindTooltip(
+                `<div>
+                     Loc 1 | Air Temp: 26.00 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_40bb817a14bb9c91e27ca75ad73010a4 = L.circleMarker(
+                [40.65423, -73.757359],
+                {"bubblingMouseEvents": true, "color": "#ff6b00ff", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#ff6b00ff", "fillOpacity": 0.9, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8, "stroke": true, "weight": 2}
+            ).addTo(feature_group_277d9c38fe87082871e6a1861ddff327);
+        
+    
+        var popup_e2f3db711cc5fd9cb457c5da13dad0c2 = L.popup({
+  "maxWidth": 350,
+});
+
+        
+            
+                var html_651d6bae294d2d6ed8775b4f916e507a = $(`<div id="html_651d6bae294d2d6ed8775b4f916e507a" style="width: 100.0%; height: 100.0%;">     <div style="width:320px; font-size:13px;">         <h4>Trail - Salt Marsh</h4>         <b>Date:</b> 9/6/2025<br>         <b>Time:</b> 10:00 AM<br>         <b>Water Temp:</b> 25.00 °C<br>         <b>Air Temp:</b> 26.10 °C<br>         <b>Salinity:</b> 26.00 PSU         <hr><b>Elevated Entries:</b><br><ul style='padding-left:18px; margin:6px 0;'>             <li>                 <b>Type:</b> Diatom<br>                 <b>ID:</b> Pennate diatoms<br>                 <b>Relative Abundance:</b> Elevated             </li>             </ul>     </div>     </div>`)[0];
+                popup_e2f3db711cc5fd9cb457c5da13dad0c2.setContent(html_651d6bae294d2d6ed8775b4f916e507a);
+            
+        
+
+        circle_marker_40bb817a14bb9c91e27ca75ad73010a4.bindPopup(popup_e2f3db711cc5fd9cb457c5da13dad0c2)
+        ;
+
+        
+    
+    
+            circle_marker_40bb817a14bb9c91e27ca75ad73010a4.bindTooltip(
+                `<div>
+                     Trail - Salt Marsh | Air Temp: 26.10 °C
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            L.control.layers.tree(
+                null,
+                {
+  "label": "\u003cb\u003eSampling Layers\u003c/b\u003e",
+  "children": [
+{
+  "label": "\u003cb\u003e1/9/2026\u003c/b\u003e",
+  "children": [
+{
+  "label": "General",
+  "layer": feature_group_27def8e389f126288bb01f43fb96a19f,
+},
+{
+  "label": "Salinity",
+  "layer": feature_group_ba2325da756424e9868a028ae8e211a1,
+},
+{
+  "label": "Water Temperature",
+  "layer": feature_group_f88abc87f8e877c9f17f89f1b5dbc071,
+},
+{
+  "label": "Air Temperature",
+  "layer": feature_group_442aa34e8ce90a5142ea04598b9a93a4,
+},
+],
+},
+{
+  "label": "\u003cb\u003e10/4/2025\u003c/b\u003e",
+  "children": [
+{
+  "label": "General",
+  "layer": feature_group_19a565c22d880683e4ce191aa8614f9d,
+},
+{
+  "label": "Salinity",
+  "layer": feature_group_d51d6e8f7a732ce34f7a0309f0e377b4,
+},
+{
+  "label": "Water Temperature",
+  "layer": feature_group_9dbf69a75c73821ab2b16b240c86f21e,
+},
+{
+  "label": "Air Temperature",
+  "layer": feature_group_cbaf1f3bce00f55e72800f8322746a21,
+},
+],
+},
+{
+  "label": "\u003cb\u003e12/27/2025\u003c/b\u003e",
+  "children": [
+{
+  "label": "General",
+  "layer": feature_group_5be7b8b733ccb3f7f61af949d7d30063,
+},
+{
+  "label": "Salinity",
+  "layer": feature_group_d304f5f271aaa584acef70af295d010b,
+},
+{
+  "label": "Water Temperature",
+  "layer": feature_group_16ea3dc0eedf8452a136b5bfba9d6221,
+},
+{
+  "label": "Air Temperature",
+  "layer": feature_group_cf1288283a25a0a2581823fc02d6185f,
+},
+],
+},
+{
+  "label": "\u003cb\u003e2/21/2026\u003c/b\u003e",
+  "children": [
+{
+  "label": "General",
+  "layer": feature_group_887a9e42f0d10fed24172820ffbe0402,
+},
+{
+  "label": "Salinity",
+  "layer": feature_group_a1aac1c6da61b75bac18b4edb6caebda,
+},
+{
+  "label": "Water Temperature",
+  "layer": feature_group_35e620d922f4942b5ee75078a86a4d12,
+},
+{
+  "label": "Air Temperature",
+  "layer": feature_group_38a135cb202823cf7094476c64035ddc,
+},
+],
+},
+{
+  "label": "\u003cb\u003e2/28/2026\u003c/b\u003e",
+  "children": [
+{
+  "label": "General",
+  "layer": feature_group_f9b7117adcb21519cb07c734194df7bc,
+},
+{
+  "label": "Salinity",
+  "layer": feature_group_123ec357abfae69aea4e7dadd50a0a17,
+},
+{
+  "label": "Water Temperature",
+  "layer": feature_group_c93d114d9f9b0ef89d8cd063e4955f16,
+},
+{
+  "label": "Air Temperature",
+  "layer": feature_group_5b77c7f4a685f0d5ed501454868fe728,
+},
+],
+},
+{
+  "label": "\u003cb\u003e4/18/2026\u003c/b\u003e",
+  "children": [
+{
+  "label": "General",
+  "layer": feature_group_5b15d441f7466642d418dc284ff6d3a8,
+},
+{
+  "label": "Salinity",
+  "layer": feature_group_c957860622991135497ab26b414aaf2d,
+},
+{
+  "label": "Water Temperature",
+  "layer": feature_group_4ff5df3e557d688fa88863b7296f5e3d,
+},
+{
+  "label": "Air Temperature",
+  "layer": feature_group_6bd1d071addc3a98cbdae34c453e5e13,
+},
+],
+},
+{
+  "label": "\u003cb\u003e5/30/2025\u003c/b\u003e",
+  "children": [
+{
+  "label": "General",
+  "layer": feature_group_cd3af9dc841527d2af6a31c5848ca92d,
+},
+{
+  "label": "Salinity",
+  "layer": feature_group_38cb76bc9354da1db5eea946dbb70e16,
+},
+{
+  "label": "Water Temperature",
+  "layer": feature_group_7e429871ef099e77d22065931d1a3234,
+},
+{
+  "label": "Air Temperature",
+  "layer": feature_group_96f4d9926f672c0c7d8d223fd36ff217,
+},
+],
+},
+{
+  "label": "\u003cb\u003e6/13/2025\u003c/b\u003e",
+  "children": [
+{
+  "label": "General",
+  "layer": feature_group_64f265ca15502602d85bb8311b2b7876,
+},
+{
+  "label": "Salinity",
+  "layer": feature_group_b7afe27fb54daa94fff6d400f6f6bd06,
+},
+{
+  "label": "Water Temperature",
+  "layer": feature_group_5c18119cde127e5ca399d60fe61f671b,
+},
+{
+  "label": "Air Temperature",
+  "layer": feature_group_cdce30b19f9c33a7a3c84514509ca2ba,
+},
+],
+},
+{
+  "label": "\u003cb\u003e7/19/2025\u003c/b\u003e",
+  "children": [
+{
+  "label": "General",
+  "layer": feature_group_d996cb970521463562f5aa502d96132a,
+},
+{
+  "label": "Salinity",
+  "layer": feature_group_916a8943965c188c5fc344b236ce8e79,
+},
+{
+  "label": "Water Temperature",
+  "layer": feature_group_b20c8cf2e54b6e3c9c8b0e2da93bce90,
+},
+{
+  "label": "Air Temperature",
+  "layer": feature_group_d37d8f215b6306e6ba5cdb785df0d17e,
+},
+],
+},
+{
+  "label": "\u003cb\u003e7/7/2025\u003c/b\u003e",
+  "children": [
+{
+  "label": "General",
+  "layer": feature_group_d9e856ddfbcc0a33a07304ba9a035b21,
+},
+{
+  "label": "Salinity",
+  "layer": feature_group_13bac5c438712a996b6192f114a22e2b,
+},
+{
+  "label": "Water Temperature",
+  "layer": feature_group_14a117d5a97c6c0e68da305e55cc0ec4,
+},
+{
+  "label": "Air Temperature",
+  "layer": feature_group_37c19dca13aff6f26dee2d14cd3e591c,
+},
+],
+},
+{
+  "label": "\u003cb\u003e8/16/2025\u003c/b\u003e",
+  "children": [
+{
+  "label": "General",
+  "layer": feature_group_5b092ead415d8404b2102f9bae96ca82,
+},
+{
+  "label": "Salinity",
+  "layer": feature_group_8e915bab0e22ab4155cce1d3b0d93bed,
+},
+{
+  "label": "Water Temperature",
+  "layer": feature_group_b946c438a92481ca9245e1385427a5e5,
+},
+{
+  "label": "Air Temperature",
+  "layer": feature_group_4c04cf24e19cf970ab79f85cdd07057b,
+},
+],
+},
+{
+  "label": "\u003cb\u003e9/6/2025\u003c/b\u003e",
+  "children": [
+{
+  "label": "General",
+  "layer": feature_group_e9d8e68760785bb839722a983743582f,
+},
+{
+  "label": "Salinity",
+  "layer": feature_group_039ee4120dfad5f2a85ffa83dbb890da,
+},
+{
+  "label": "Water Temperature",
+  "layer": feature_group_f4343af1f779859c0a69741d3f5d22bd,
+},
+{
+  "label": "Air Temperature",
+  "layer": feature_group_277d9c38fe87082871e6a1861ddff327,
+},
+],
+},
+],
+},
+                {
+  "collapsed": false,
+  "closedSymbol": "+",
+  "openedSymbol": "-",
+  "spaceSymbol": "\u0026nbsp;",
+  "selectorBack": false,
+  "namedToggle": false,
+  "collapseAll": "",
+  "expandAll": "",
+  "labelIsSelector": "both",
+}
+            ).addTo(map_975cf236d075177bc48b76751f1349d5);
+        
+    
+            map_975cf236d075177bc48b76751f1349d5.fitBounds(
+                [[40.63573301268873, -73.78842359257995], [40.680778057733775, -73.72904513699756]],
+                {}
+            );
+        
+</script>
+</html>
